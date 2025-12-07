@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wrecked: Müzik Karnesi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+
+<body>
+    <div class="noise-overlay"></div>
+
+
+
+    <!-- BRANDING HEADER -->
+    <header class="app-header">
+        <div class="logo-container">
+            <div class="wrecked-logo-img-container">
+                <img src="logo_final.png" alt="Wrecked Logo" class="wrecked-logo-img">
+            </div>
+            <div class="brand-wrapper">
+                <div class="brand-sub">Mustify</div>
+                <h1 class="brand-name">Wrecked</h1>
+            </div>
+        </div>
+        <button id="btn-lang" class="lang-btn">TR | EN</button>
+    </header>
+
+    <!-- SCREEN 1: LOGIN -->
+    <div id="screen-login" class="screen active-screen">
+        <h1 class="big-title">Müzik Zevkin<br>Mahvolmuş</h1>
+        <p class="subtitle">Bu yıl kulaklarına neler yaptığını görmeye hazır mısın?</p>
+        <button id="btn-login" class="btn-primary">Spotify ile Yüzleş</button>
+    </div>
+
+    <!-- SCREEN 2: WELCOME -->
+    <div id="screen-welcome" class="screen">
+        <div class="loader-box">
+            <h2>Utanç verici verilerin<br>indiriliyor...</h2>
+            <div class="spinner"></div>
+            <button id="btn-start" class="btn-primary" style="margin-top:20px">Yıkımı Başlat</button>
+        </div>
+    </div>
+
+    <!-- SCREENS 3-5: LISTS -->
+    <div id="screen-songs" class="screen">
+        <h2>🎧 Kulak Kanaması Sebepleri</h2>
+        <div id="list-songs" class="list-container"></div>
+        <div class="nav-row">
+            <button class="btn-secondary" onclick="showScreen('screen-welcome')">⬅</button>
+            <button id="btn-next-albums" class="btn-nav">💿 Suç Ortakları ➡</button>
+        </div>
+    </div>
+
+    <div id="screen-albums" class="screen">
+        <h2>💿 Plak Ziyanı</h2>
+        <div id="list-albums" class="list-container"></div>
+        <div class="nav-row">
+            <button class="btn-secondary" onclick="showScreen('screen-songs')">⬅</button>
+            <button id="btn-next-artists" class="btn-nav">🎤 Tarikat Liderlerin ➡</button>
+        </div>
+    </div>
+
+    <div id="screen-artists" class="screen">
+        <h2>🎤 Tarikat Liderlerin</h2>
+        <div id="list-artists" class="list-container"></div>
+        <div class="nav-row">
+            <button class="btn-secondary" onclick="showScreen('screen-albums')">⬅</button>
+            <button id="btn-next-genres" class="btn-nav">🎹 Tür Karmaşası ➡</button>
+        </div>
+    </div>
+
+    <div id="screen-genres" class="screen">
+        <h2>🎹 Tür Karmaşası</h2>
+        <div id="list-genres" class="list-container"></div>
+        <div class="nav-row">
+            <button class="btn-secondary" onclick="showScreen('screen-artists')">⬅</button>
+            <button id="btn-next-stats" class="btn-nav">📊 Hasar Raporu ➡</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 6: STATS -->
+    <div id="screen-stats" class="screen">
+        <h2 class="section-title">Hasar Raporu</h2>
+        <div class="bento-grid" id="stats-grid-view">
+            <div class="bento-box box-large era-box">
+                <h3>Ruh Yaşın</h3>
+                <p id="stat-era">...</p>
+            </div>
+            <div class="bento-box box-medium score-box">
+                <h3>Banal Skor</h3>
+                <div class="progress-bar">
+                    <div id="stat-mainstream-bar" style="width:0%"></div>
+                </div>
+                <p id="stat-mainstream-val">0%</p>
+            </div>
+            <div class="bento-box box-medium top-genre-box">
+                <h3>Favori Tür</h3>
+                <p id="stat-top-genre">...</p>
+            </div>
+            <div class="bento-box box-large trait-box">
+                <h3>Toksik Özellik</h3>
+                <p id="stat-toxic">...</p>
+            </div>
+            <div class="bento-box box-small artist-box">
+                <h3>Farklı Sanatçı</h3>
+                <p id="stat-artist-count">0</p>
+            </div>
+            <div class="bento-box box-small genre-box">
+                <h3>Keşfedilen Tür</h3>
+                <p id="stat-genre-count">0</p>
+            </div>
+            <div class="bento-box box-medium city-box">
+                <h3>Ruh Şehri</h3>
+                <p id="stat-city">...</p>
+            </div>
+        </div>
+        <div class="nav-row">
+            <button class="btn-secondary" onclick="showScreen('screen-genres')">⬅</button>
+            <button id="btn-next-persona" class="btn-nav pulse-btn">🔮 Falına Bak ➡</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 7: PERSONA -->
+    <div id="screen-persona" class="screen">
+        <h2>🔮 Büyük Yüzleşme</h2>
+        <div class="persona-card">
+            <h3 id="persona-title" class="persona-title">...</h3>
+            <div class="story-box">
+                <p id="persona-desc" class="persona-text">...</p>
+            </div>
+            <div class="recommendations-box">
+                <div class="rec-column">
+                    <h4>🎬 İzle</h4>
+                    <ul id="rec-movies"></ul>
+                </div>
+                <div class="rec-column">
+                    <h4>📚 Oku</h4>
+                    <ul id="rec-books"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="nav-row">
+            <button class="btn-secondary" onclick="showScreen('screen-stats')">⬅</button>
+            <button id="btn-next-summary" class="btn-nav pulse-btn">🏁 Sonuç Kartını Gör ➡</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 8: SUMMARY -->
+    <div id="screen-summary" class="screen">
+        <h2>🏁 Kaza Raporu Özeti</h2>
+
+        <div id="final-summary-card" class="share-layout visible-card">
+            <div class="share-header">
+                <div class="wrecked-logo-img-container small">
+                    <img src="logo_final.png" alt="Logo" class="wrecked-logo-img">
+                </div>
+                <div class="share-brand" style="position:relative">
+                    <div class="brand-sub">Mustify</div>
+                    <h1>Wrecked</h1>
+                </div>
+            </div>
+
+            <div class="share-content">
+                <h2 id="sum-title">...</h2>
+                <div class="top-section">
+                    <div class="share-image-box"><img id="sum-artist-img" src="" crossorigin="anonymous"></div>
+                    <div class="story-snippet">
+                        <p id="sum-story">...</p>
+                    </div>
+                </div>
+
+                <!-- MINI BENTO GRID -->
+                <div class="bento-grid condensed">
+                    <div class="bento-box box-large era-box">
+                        <h3>Ruh Yaşın</h3>
+                        <p id="sum-era">...</p>
+                    </div>
+                    <div class="bento-box box-medium city-box">
+                        <h3>Ruh Şehri</h3>
+                        <p id="sum-city">...</p>
+                    </div>
+
+                    <div class="bento-box box-medium score-box">
+                        <h3>Banal Skoru</h3>
+                        <div class="progress-bar">
+                            <div id="sum-bar" style="width:0%; background:var(--wrecked-yellow); height:100%"></div>
+                        </div>
+                        <p id="sum-score" style="font-size:0.8em; margin-top:2px"></p>
+                    </div>
+                    <div class="bento-box box-medium top-genre-box">
+                        <h3>Favori Tür</h3>
+                        <p id="sum-genre">...</p>
+                    </div>
+
+                    <div class="bento-box trait-box">
+                        <h3>Toksik Özellik</h3>
+                        <p id="sum-toxic">...</p>
+                    </div>
+
+                    <div class="bento-box box-small artist-box">
+                        <h3>Farklı Sanatçı</h3>
+                        <p id="sum-art-count">0</p>
+                    </div>
+                    <div class="bento-box box-small genre-box">
+                        <h3>Keşfedilen Tür</h3>
+                        <p id="sum-gen-count">0</p>
+                    </div>
+                </div>
+
+                <!-- RECOMMENDATIONS -->
+                <div class="share-recs">
+                    <div class="share-recs-col">
+                        <h4>🎬 İzle</h4>
+                        <div id="sum-rec-mov"></div>
+                    </div>
+                    <div class="share-recs-col">
+                        <h4>📚 Oku</h4>
+                        <div id="sum-rec-book"></div>
+                    </div>
+                </div>
+
+                <div class="share-footer">
+                    <p>wrecked-app.vercel.app</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="share-actions-container">
+            <h3>Sonucunu Paylaş</h3>
+
+            <!-- BUTTONS ROW: Download + Social Icons -->
+            <div class="social-actions-row">
+                <button class="icon-btn download-btn" onclick="downloadImage('generic')" title="İndir">
+                    <i class="fas fa-download"></i>
+                </button>
+                <a href="#" onclick="shareSocial('facebook'); return false;" class="icon-btn fb-btn"><i
+                        class="fab fa-facebook-f"></i></a>
+                <a href="#" onclick="shareSocial('whatsapp'); return false;" class="icon-btn wa-btn"><i
+                        class="fab fa-whatsapp"></i></a>
+                <a href="#" onclick="shareSocial('tiktok'); return false;" class="icon-btn tt-btn"><i
+                        class="fab fa-tiktok"></i></a>
+                <a href="#" onclick="shareSocial('twitter'); return false;" class="icon-btn x-btn"><i
+                        class="fa-brands fa-x-twitter"></i></a>
+                <a href="#" onclick="shareSocial('instagram'); return false;" class="icon-btn ig-btn"><i
+                        class="fab fa-instagram"></i></a>
+            </div>
+
+
+
+            <div class="nav-row">
+                <button id="btn-restart" class="btn-primary" style="background:#444; color:white; margin-top:15px">Başa
+                    Dön ↺</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AD SPACE BOTTOM REMOVED -->
+
+    <script src="script.js?v=17"></script>
+</body>
+
+</html>
