@@ -146,119 +146,17 @@
                 </div>
             </div>
         </div>
-        <div class="nav-row">
-            <button class="btn-secondary" onclick="showScreen('screen-stats')">⬅</button>
-            <button id="btn-next-summary" class="btn-nav pulse-btn">🏁 Sonuç Kartını Gör ➡</button>
+        <div class="rec-column">
+            <h4>📚 Oku</h4>
+            <ul id="rec-books"></ul>
         </div>
     </div>
-
-    <!-- SCREEN 8: SUMMARY -->
-    <div id="screen-summary" class="screen">
-        <h2>🏁 Kaza Raporu Özeti</h2>
-
-        <div id="final-summary-card" class="share-layout visible-card">
-            <div class="share-header">
-                <div class="wrecked-logo-img-container small">
-                    <img src="logo_final.png" alt="Logo" class="wrecked-logo-img">
-                </div>
-                <div class="share-brand" style="position:relative">
-                    <div class="brand-sub">Mustify</div>
-                    <h1>Wrecked</h1>
-                </div>
-            </div>
-
-            <div class="share-content">
-                <h2 id="sum-title">...</h2>
-                <div class="top-section">
-                    <div class="share-image-box"><img id="sum-artist-img" src="" crossorigin="anonymous"></div>
-                    <div class="story-snippet">
-                        <p id="sum-story">...</p>
-                    </div>
-                </div>
-
-                <!-- MINI BENTO GRID -->
-                <div class="bento-grid condensed">
-                    <div class="bento-box box-large era-box">
-                        <h3>Ruh Yaşın</h3>
-                        <p id="sum-era">...</p>
-                    </div>
-                    <div class="bento-box box-medium city-box">
-                        <h3>Ruh Şehri</h3>
-                        <p id="sum-city">...</p>
-                    </div>
-
-                    <div class="bento-box box-medium score-box">
-                        <h3>Banal Skoru</h3>
-                        <div class="progress-bar">
-                            <div id="sum-bar" style="width:0%; background:var(--wrecked-yellow); height:100%"></div>
-                        </div>
-                        <p id="sum-score" style="font-size:0.8em; margin-top:2px"></p>
-                    </div>
-                    <div class="bento-box box-medium top-genre-box">
-                        <h3>Favori Tür</h3>
-                        <p id="sum-top-genre">...</p>
-                    </div>
-
-                    <div class="bento-box trait-box">
-                        <h3>Toksik Özellik</h3>
-                        <p id="sum-toxic">...</p>
-                    </div>
-
-                    <div class="bento-box box-small artist-box">
-                        <h3>Farklı Sanatçı</h3>
-                        <p id="sum-art-count">0</p>
-                    </div>
-                    <div class="bento-box box-small genre-box">
-                        <h3>Keşfedilen Tür</h3>
-                        <p id="sum-gen-count">0</p>
-                    </div>
-                </div>
-
-                <!-- RECOMMENDATIONS -->
-                <div class="share-recs">
-                    <div class="share-recs-col">
-                        <h4>🎬 İzle</h4>
-                        <div id="sum-rec-mov"></div>
-                    </div>
-                    <div class="share-recs-col">
-                        <h4>📚 Oku</h4>
-                        <div id="sum-rec-book"></div>
-                    </div>
-                </div>
-
-                <div class="share-footer">
-                    <p>wrecked-app.vercel.app</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="share-actions-container">
-            <h3>Sonucunu Paylaş</h3>
-
-            <!-- BUTTONS ROW: Download + Social Icons -->
-            <div class="social-actions-row">
-                <button class="icon-btn download-btn" onclick="downloadImage('generic')" title="İndir">
-                    <i class="fas fa-download"></i>
-                </button>
-                <a href="#" onclick="shareSocial('facebook'); return false;" class="icon-btn fb-btn"><i
-                        class="fab fa-facebook-f"></i></a>
-                <a href="#" onclick="shareSocial('whatsapp'); return false;" class="icon-btn wa-btn"><i
-                        class="fab fa-whatsapp"></i></a>
-                <a href="#" onclick="shareSocial('tiktok'); return false;" class="icon-btn tt-btn"><i
-                        class="fab fa-tiktok"></i></a>
-                <a href="#" onclick="shareSocial('twitter'); return false;" class="icon-btn x-btn"><i
-                        class="fa-brands fa-x-twitter"></i></a>
-                <a href="#" onclick="shareSocial('instagram'); return false;" class="icon-btn ig-btn"><i
-                        class="fab fa-instagram"></i></a>
-            </div>
-
-
-
-            <div class="nav-row">
-                <button id="btn-restart" class="btn-primary" style="background:#444; color:white; margin-top:15px">Başa
-                    Dön ↺</button>
-            </div>
-        </div>
+    </div>
+    <div class="nav-row">
+        <button class="btn-secondary" onclick="showScreen('screen-stats')">⬅</button>
+        <!-- RESTART BUTTON MOVED HERE -->
+        <button id="btn-restart" class="btn-primary" style="background:#444; color:white;">Başa Dön ↺</button>
+    </div>
     </div>
 
     <!-- AD SPACE BOTTOM REMOVED -->

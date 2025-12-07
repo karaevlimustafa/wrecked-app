@@ -961,15 +961,7 @@ function generateFortune() {
     if (!persona.b || persona.b.length === 0) document.getElementById('rec-books').innerHTML = "<li>Kitap yok.</li>";
 }
 
-function populateSummary() {
-    // Basic image sync
-    if (allTopArtists[0]?.images[0]) document.getElementById('sum-artist-img').src = allTopArtists[0].images[0].url;
 
-    // Most text population is done in generateFortune to respect Dynamic Placeholders and Language
-    // Just ensuring counters are here
-    document.getElementById('sum-art-count').innerText = allTopArtists.length;
-    document.getElementById('sum-gen-count').innerText = topGenres.length;
-}
 
 window.onload = () => {
     // 1. Language Init
@@ -1007,18 +999,10 @@ window.onload = () => {
     document.getElementById('btn-next-persona').onclick = () => {
         generateFortune();
         showScreen('screen-persona');
-        populateSummary(); // call for image
+        // populateSummary() removed as screen is deleted
     };
 
-    document.getElementById('btn-next-summary').onclick = () => {
-        populateSummary();
-        showScreen('screen-summary');
-
-        // Auto-scroll for mobile UX
-        setTimeout(() => {
-            document.getElementById('screen-summary').scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-    };
+    // btn-next-summary removed
 
     document.getElementById('btn-restart').onclick = () => {
         window.location.href = REDIRECT_URI;
