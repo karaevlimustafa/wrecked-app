@@ -916,7 +916,7 @@ function generateFortune() {
     let rawDesc = persona.desc ? (persona.desc[lang] || persona.desc['tr']) : "Error generating story.";
 
     // 4. Inject Dynamic Data
-    const cityVal = document.getElementById('stat-city').innerText;
+    const cityVal = document.getElementById('stat-city').innerText || (currentLang === 'tr' ? "İstanbul" : "New York");
     const artVal = topArt || "Sanatçı";
 
     // Replace {a} and {c}
@@ -929,24 +929,34 @@ function generateFortune() {
     document.getElementById('persona-desc').innerHTML = finalDesc;
 
     const moviesList = document.getElementById('rec-movies');
-    moviesList.innerHTML = persona.m.map(x => `<li>${x}</li>`).join('');
+    if (moviesList) moviesList.innerHTML = persona.m.map(x => `<li>${x}</li>`).join('');
 
     const booksList = document.getElementById('rec-books');
-    booksList.innerHTML = persona.b.map(x => `<li>${x}</li>`).join('');
+    if (booksList) booksList.innerHTML = persona.b.map(x => `<li>${x}</li>`).join('');
 
     // Summary Card Sync
     document.getElementById('sum-title').innerText = rawTitle;
-    document.getElementById('sum-story').innerHTML = finalDesc;
-    document.getElementById('sum-era').innerText = currentLang === 'tr' ? detailedSpiritAge : detailedSpiritAgeEN;
+
+    // TRUNCATE STORY FOR SUMMARY CARD TO PREVENT OVERFLOW
+    // Keep it approx 130 chars for visual fit
+    let shortDesc = finalDesc;
+    if (finalDesc.length > 140) {
+        // Find last space before 140
+        const cut = finalDesc.lastIndexOf(' ', 140);
+        shortDesc = finalDesc.substring(0, cut > 0 ? cut : 140) + "...";
+    }
+    document.getElementById('sum-story').innerHTML = shortDesc;
+
+    document.getElementById('sum-era').innerText = (currentLang === 'tr' ? detailedSpiritAge : detailedSpiritAgeEN) || "MODERN";
     document.getElementById('sum-score').innerText = mainstreamScore + "% " + (currentLang === 'tr' ? "Banal" : "Basic");
-    document.getElementById('sum-bar').style.width = mainstreamScore + "%"; // Added this line for the bar
-    document.getElementById('sum-top-genre').innerText = (topGenres[0] || '').toUpperCase();
-    document.getElementById('sum-toxic').innerText = currentLang === 'tr' ? toxicTrait : toxicTraitEN;
+    document.getElementById('sum-bar').style.width = mainstreamScore + "%";
+    document.getElementById('sum-top-genre').innerText = (topGenres[0] || 'POP').toUpperCase();
+    document.getElementById('sum-toxic').innerText = (currentLang === 'tr' ? toxicTrait : toxicTraitEN) || "OK";
     document.getElementById('sum-city').innerText = cityVal;
 
-    // Summary Recs
-    document.getElementById('sum-rec-mov').innerHTML = persona.m.map(x => `<p>• ${x}</p>`).join('');
-    document.getElementById('sum-rec-book').innerHTML = persona.b.map(x => `<p>• ${x}</p>`).join('');
+    // Summary Recs - Hidden by CSS but populate just in case
+    document.getElementById('sum-rec-mov').innerHTML = "";
+    document.getElementById('sum-rec-book').innerHTML = "";
 
     if (!persona.b || persona.b.length === 0) document.getElementById('rec-books').innerHTML = "<li>Kitap yok.</li>";
 }
