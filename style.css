@@ -238,7 +238,7 @@ h2 {
     margin-bottom: 30px;
     letter-spacing: -1.5px;
     /* Tighter */
-    text-transform: uppercase;
+    text-transform: capitalize;
     /* Poster style */
 }
 
@@ -548,10 +548,38 @@ h2 {
 .share-content h2 {
     font-size: clamp(1rem, 5vw, 1.4rem);
     /* Responsive typography */
-    text-transform: uppercase;
+    text-transform: capitalize;
     color: var(--wrecked-green);
     margin: 0;
     line-height: 1.1;
+}
+
+/* FINAL REPORT STORY LAYOUT */
+.final-hero-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.final-hero-img {
+    width: 85px;
+    height: 85px;
+    border-radius: 8px;
+    border: 2px solid var(--wrecked-green);
+    transform: rotate(-3deg);
+    flex-shrink: 0;
+    object-fit: cover;
+}
+
+.final-hero-text {
+    flex: 1;
+    font-size: 0.75em;
+    line-height: 1.35;
+    color: #ddd;
+    /* max-height: 85px;  Optional safety */
+    overflow: hidden;
 }
 
 .top-section {

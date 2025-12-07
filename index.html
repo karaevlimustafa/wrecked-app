@@ -135,48 +135,93 @@
         </div>
     </div>
 
-    <!-- SCREEN 9: FINAL (Duplicate of STATS) -->
+    <!-- SCREEN 9: FINAL (Kaza Raporu) -->
     <div id="screen-final" class="screen">
-        <h2>🏁 Final Rapor</h2>
-        <div class="bento-grid">
-            <!-- Row 1: Era & City -->
-            <div class="bento-box box-large era-box">
-                <h3>Ruh Yaşın</h3>
-                <p id="final-stat-era">...</p>
-            </div>
-            <div class="bento-box box-medium city-box">
-                <h3>Ruh Şehri</h3>
-                <p id="final-stat-city">...</p>
-            </div>
+        <h2>🏁 Kaza Raporu</h2>
 
-            <!-- Row 2: Score & Genre -->
-            <div class="bento-box box-medium score-box">
-                <h3>Banal Skoru</h3>
-                <div class="progress-bar">
-                    <div id="final-stat-mainstream-bar" style="width:0%; background:var(--wrecked-yellow); height:100%">
+        <div id="final-summary-card" class="share-layout visible-card">
+            <div class="share-header" style="justify-content: space-between; margin-bottom: 10px;">
+                <!-- Left: Logo Group -->
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <div class="wrecked-logo-img-container small" style="width:30px; height:30px;">
+                        <img src="logo_final.png" alt="Logo" class="wrecked-logo-img">
+                    </div>
+                    <div style="line-height:1;">
+                        <div class="brand-sub" style="position:static; transform:none; font-size:0.5em;">Mustify</div>
+                        <h1 style="font-size:1.2em; margin:0;">Wrecked</h1>
                     </div>
                 </div>
-                <p id="final-stat-mainstream-val">0%</p>
-            </div>
-            <div class="bento-box box-medium top-genre-box">
-                <h3>Favori Tür</h3>
-                <p id="final-stat-top-genre">...</p>
-            </div>
-
-            <!-- Row 3: Toxic (Full Width) -->
-            <div class="bento-box box-large trait-box">
-                <h3>Toksik Özellik</h3>
-                <p id="final-stat-toxic">...</p>
+                <!-- Right: Archetype Title -->
+                <h2 id="final-archetype-title"
+                    style="font-size:1.1em; text-align:right; margin:0; text-transform:uppercase; color:var(--wrecked-green);">
+                    ...</h2>
             </div>
 
-            <!-- Row 4: Counts -->
-            <div class="bento-box box-small artist-box">
-                <h3>Farklı Sanatçı</h3>
-                <p id="final-stat-artist-count">0</p>
-            </div>
-            <div class="bento-box box-small genre-box">
-                <h3>Keşfedilen Tür</h3>
-                <p id="final-stat-genre-count">0</p>
+            <div class="share-content">
+                <!-- HERO: Image + Story -->
+                <div class="final-hero-row">
+                    <img id="final-hero-img" src="" class="final-hero-img" crossorigin="anonymous">
+                    <div id="final-story-text" class="final-hero-text">...</div>
+                </div>
+
+                <!-- BENTO GRID -->
+                <div class="bento-grid condensed">
+                    <!-- Row 1: City & Era -->
+                    <div class="bento-box box-medium city-box">
+                        <h3>Ruh Şehri</h3>
+                        <p id="final-stat-city">...</p>
+                    </div>
+                    <div class="bento-box box-large era-box">
+                        <h3>Ruh Yaşın</h3>
+                        <p id="final-stat-era">...</p>
+                    </div>
+
+                    <!-- Row 2: Score & Genre -->
+                    <div class="bento-box box-medium score-box">
+                        <h3>Banal Skoru</h3>
+                        <div class="progress-bar">
+                            <div id="final-stat-mainstream-bar"
+                                style="width:0%; background:var(--wrecked-yellow); height:100%"></div>
+                        </div>
+                        <p id="final-stat-mainstream-val">0%</p>
+                    </div>
+                    <div class="bento-box box-medium top-genre-box">
+                        <h3>Favori Tür</h3>
+                        <p id="final-stat-top-genre">...</p>
+                    </div>
+
+                    <!-- Row 3: Toxic -->
+                    <div class="bento-box box-large trait-box">
+                        <h3>Toksik Özellik</h3>
+                        <p id="final-stat-toxic">...</p>
+                    </div>
+
+                    <!-- Row 4: Counts -->
+                    <div class="bento-box box-small artist-box">
+                        <h3>Sanatçı</h3>
+                        <p id="final-stat-artist-count">0</p>
+                    </div>
+                    <div class="bento-box box-small genre-box">
+                        <h3>Tür</h3>
+                        <p id="final-stat-genre-count">0</p>
+                    </div>
+                </div>
+
+                <!-- RECS (Footer) -->
+                <div class="share-recs"
+                    style="display:flex !important; margin-top:10px; gap:10px; font-size:0.7em; text-align:left;">
+                    <div style="flex:1;">
+                        <h4 style="color:#aaa; margin:0 0 3px 0;">🎬 İzle</h4>
+                        <div id="final-rec-mov"></div>
+                    </div>
+                    <div style="flex:1;">
+                        <h4 style="color:#aaa; margin:0 0 3px 0;">📚 Oku</h4>
+                        <div id="final-rec-book"></div>
+                    </div>
+                </div>
+
+                <div class="share-footer" style="margin-top:10px; font-size:0.6em; opacity:0.5;">wrecked-app.vercel.app
+                </div>
             </div>
         </div>
 

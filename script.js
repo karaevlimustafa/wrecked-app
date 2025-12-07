@@ -959,19 +959,43 @@ function generateFortune() {
 
     if (!persona.b || persona.b.length === 0) document.getElementById('rec-books').innerHTML = "<li>Kitap yok.</li>";
 
-    // --- POPULATE FINAL SCREEN (Duplicate logic for final- prefix) ---
+    // --- POPULATE FINAL SCREEN (Kaza Raporu) ---
     const updateFinal = (id, val) => { const el = document.getElementById('final-' + id); if (el) el.innerText = val; };
-    const eraVal = currentLang === 'tr' ? detailedSpiritAge : detailedSpiritAgeEN; // Re-declare for scope
-    const traitVal = currentLang === 'tr' ? toxicTrait : toxicTraitEN; // Re-declare for scope
+
+    // 1. Header & Hero
+    document.getElementById('final-archetype-title').innerText = rawTitle;
+    document.getElementById('final-story-text').innerHTML = shortDesc; // Use truncated version for space safety
+    const heroImg = document.getElementById('final-hero-img');
+    if (heroImg && allTopArtists.length > 0 && allTopArtists[0].images.length > 0) {
+        heroImg.src = allTopArtists[0].images[0].url;
+    } else if (heroImg) {
+        heroImg.style.display = 'none'; // Hide if no image
+    }
+
+    // 2. Stats
+    const eraVal = currentLang === 'tr' ? detailedSpiritAge : detailedSpiritAgeEN;
+    const traitVal = currentLang === 'tr' ? toxicTrait : toxicTraitEN;
+
     updateFinal('stat-era', eraVal || (currentLang === 'tr' ? "Bilinmiyor" : "Unknown"));
     updateFinal('stat-mainstream-val', mainstreamScore + "%");
     const elFinalBar = document.getElementById('final-stat-mainstream-bar');
     if (elFinalBar) elFinalBar.style.width = mainstreamScore + "%";
-    updateFinal('stat-top-genre', (document.getElementById('stat-top-genre').innerText));
+
+    // Fix: Get Top Genre properly (it might be set in DOM or var)
+    const genreVal = (topGenres[0] || 'POP').toUpperCase();
+    updateFinal('stat-top-genre', genreVal);
+
     updateFinal('stat-toxic', traitVal || (currentLang === 'tr' ? "Sıradan" : "Ordinary"));
     updateFinal('stat-artist-count', allTopArtists.length || 0);
     updateFinal('stat-genre-count', topGenres.length || 0);
     updateFinal('stat-city', cityVal);
+
+    // 3. Recs (Simple List)
+    const finalMov = document.getElementById('final-rec-mov');
+    if (finalMov) finalMov.innerHTML = persona.m.map(x => `<div>• ${x}</div>`).join('');
+
+    const finalBook = document.getElementById('final-rec-book');
+    if (finalBook) finalBook.innerHTML = persona.b.map(x => `<div>• ${x}</div>`).join('');
 }
 
 
