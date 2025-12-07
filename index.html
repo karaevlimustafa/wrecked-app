@@ -137,91 +137,120 @@
 
     <!-- SCREEN 9: FINAL (Kaza Raporu) -->
     <div id="screen-final" class="screen">
-        <h2>🏁 Kaza Raporu</h2>
+        <h2>Kaza Raporu</h2>
 
-        <div id="final-summary-card" class="share-layout visible-card">
-            <div class="share-header" style="justify-content: space-between; margin-bottom: 10px;">
+        <div id="final-summary-card" class="share-layout visible-card"
+            style="border: 1px solid #333; box-shadow: 0 0 20px rgba(46, 204, 113, 0.2);">
+            <div class="share-header" style="justify-content: space-between; margin-bottom: 15px; align-items:center;">
                 <!-- Left: Logo Group -->
                 <div style="display:flex; align-items:center; gap:8px;">
-                    <div class="wrecked-logo-img-container small" style="width:30px; height:30px;">
-                        <img src="logo_final.png" alt="Logo" class="wrecked-logo-img">
-                    </div>
-                    <div style="line-height:1;">
-                        <div class="brand-sub" style="position:static; transform:none; font-size:0.5em;">Mustify</div>
-                        <h1 style="font-size:1.2em; margin:0;">Wrecked</h1>
+                    <div class="wrecked-logo-img-container small"
+                        style="width:32px; height:32px; border:none; background:transparent;">
+                        <img src="logo_final.png" alt="W" class="wrecked-logo-img" style="border-radius:50%;">
                     </div>
                 </div>
                 <!-- Right: Archetype Title -->
                 <h2 id="final-archetype-title"
-                    style="font-size:1.1em; text-align:right; margin:0; text-transform:uppercase; color:var(--wrecked-green);">
+                    style="font-size:1.1em; text-align:right; margin:0; text-transform:capitalize; color:var(--wrecked-green); text-shadow:0 0 10px rgba(46,204,113,0.4);">
                     ...</h2>
             </div>
 
             <div class="share-content">
                 <!-- HERO: Image + Story -->
-                <div class="final-hero-row">
-                    <img id="final-hero-img" src="" class="final-hero-img" crossorigin="anonymous">
-                    <div id="final-story-text" class="final-hero-text">...</div>
+                <div class="final-hero-row"
+                    style="background:rgba(255,255,255,0.03); padding:10px; border-radius:12px; margin-bottom:10px; border:1px solid rgba(255,255,255,0.05);">
+                    <img id="final-hero-img" src="" class="final-hero-img" crossorigin="anonymous"
+                        style="width:80px; height:80px; transform:rotate(-3deg); margin-right:12px; border-color:rgba(255,255,255,0.2);">
+                    <div id="final-story-text" class="final-hero-text" style="font-size:0.7em; color:#ccc;">...</div>
                 </div>
 
                 <!-- BENTO GRID -->
-                <div class="bento-grid condensed">
-                    <!-- Row 1: City & Era -->
-                    <div class="bento-box box-medium city-box">
-                        <h3>Ruh Şehri</h3>
-                        <p id="final-stat-city">...</p>
+                <div class="bento-grid condensed" style="gap:8px;">
+                    <!-- Row 1: City & Age -->
+                    <div class="bento-box box-medium city-box" style="position:relative;">
+                        <div style="display:flex; justify-content:space-between; width:100%;">
+                            <h3 style="color:#888;">Ruh Şehri</h3>
+                            <i class="fas fa-city" style="color:#555; font-size:0.8em;"></i>
+                        </div>
+                        <p id="final-stat-city" style="font-size:1.1em; margin-top:5px; color:#fff;">...</p>
                     </div>
-                    <div class="bento-box box-large era-box">
-                        <h3>Ruh Yaşın</h3>
-                        <p id="final-stat-era">...</p>
+                    <div class="bento-box box-medium era-box" style="position:relative;">
+                        <div style="display:flex; justify-content:space-between; width:100%;">
+                            <h3 style="color:#888;">Ruh Yaşın</h3>
+                            <i class="fas fa-clock" style="color:#555; font-size:0.8em;"></i>
+                        </div>
+                        <p id="final-stat-era"
+                            style="font-size:1em; margin-top:5px; color:var(--wrecked-green); text-shadow:0 0 5px rgba(46,204,113,0.3);">
+                            ...</p>
                     </div>
 
                     <!-- Row 2: Score & Genre -->
-                    <div class="bento-box box-medium score-box">
-                        <h3>Banal Skoru</h3>
-                        <div class="progress-bar">
-                            <div id="final-stat-mainstream-bar"
-                                style="width:0%; background:var(--wrecked-yellow); height:100%"></div>
+                    <div class="bento-box box-medium score-box" style="position:relative;">
+                        <div style="display:flex; justify-content:space-between; width:100%;">
+                            <h3 style="color:#888;">Banal Skoru</h3>
+                            <i class="fas fa-exclamation-triangle"
+                                style="color:var(--wrecked-yellow); font-size:0.8em;"></i>
                         </div>
-                        <p id="final-stat-mainstream-val">0%</p>
+                        <div class="progress-bar" style="height:12px; margin:8px 0; background:rgba(255,255,255,0.1);">
+                            <div id="final-stat-mainstream-bar"
+                                style="width:0%; background:var(--wrecked-yellow); height:100%; border-radius:10px;">
+                            </div>
+                        </div>
+                        <p id="final-stat-mainstream-val"
+                            style="position:absolute; bottom:8px; left:10px; font-size:0.8em;">0%</p>
                     </div>
-                    <div class="bento-box box-medium top-genre-box">
-                        <h3>Favori Tür</h3>
-                        <p id="final-stat-top-genre">...</p>
+                    <div class="bento-box box-medium top-genre-box" style="position:relative;">
+                        <div style="display:flex; justify-content:space-between; width:100%;">
+                            <h3 style="color:#888;">Favori Tür</h3>
+                            <i class="fas fa-music" style="color:#3498db; font-size:0.8em;"></i>
+                        </div>
+                        <p id="final-stat-top-genre"
+                            style="font-size:1em; margin-top:5px; color:#3498db; word-break:break-word; line-height:1.1;">
+                            ...</p>
                     </div>
 
                     <!-- Row 3: Toxic -->
-                    <div class="bento-box box-large trait-box">
-                        <h3>Toksik Özellik</h3>
-                        <p id="final-stat-toxic">...</p>
+                    <div class="bento-box box-large trait-box" style="text-align:left; padding:10px;">
+                        <div style="display:flex; justify-content:space-between; width:100%;">
+                            <h3 style="color:#888;">Toksik Özellik</h3>
+                            <i class="fas fa-biohazard" style="color:var(--wrecked-red); font-size:0.8em;"></i>
+                        </div>
+                        <p id="final-stat-toxic" style="color:var(--wrecked-red); font-size:0.95em; margin-top:5px;">...
+                        </p>
                     </div>
 
                     <!-- Row 4: Counts -->
                     <div class="bento-box box-small artist-box">
-                        <h3>Sanatçı</h3>
-                        <p id="final-stat-artist-count">0</p>
+                        <h3 style="font-size:0.6em;">Artist Sayısı</h3>
+                        <p id="final-stat-artist-count" style="font-size:1.4em;">0</p>
                     </div>
                     <div class="bento-box box-small genre-box">
-                        <h3>Tür</h3>
-                        <p id="final-stat-genre-count">0</p>
+                        <h3 style="font-size:0.6em;">Tür Sayısı</h3>
+                        <p id="final-stat-genre-count" style="font-size:1.4em;">0</p>
                     </div>
                 </div>
 
-                <!-- RECS (Footer) -->
-                <div class="share-recs"
-                    style="display:flex !important; margin-top:10px; gap:10px; font-size:0.7em; text-align:left;">
-                    <div style="flex:1;">
-                        <h4 style="color:#aaa; margin:0 0 3px 0;">🎬 İzle</h4>
-                        <div id="final-rec-mov"></div>
+                <!-- RECS (Footer Box) -->
+                <div class="final-recs-box"
+                    style="display:flex; margin-top:10px; gap:0; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.05); overflow:hidden;">
+                    <div style="flex:1; padding:10px; border-right:1px solid rgba(255,255,255,0.05);">
+                        <div style="display:flex; align-items:center; gap:5px; margin-bottom:5px;">
+                            <i class="fas fa-play-circle" style="color:var(--wrecked-green); font-size:0.8em;"></i>
+                            <h4 style="color:#888; margin:0; font-size:0.7em;">İzle</h4>
+                        </div>
+                        <div id="final-rec-mov" style="font-size:0.65em; line-height:1.4; color:#ddd;"></div>
                     </div>
-                    <div style="flex:1;">
-                        <h4 style="color:#aaa; margin:0 0 3px 0;">📚 Oku</h4>
-                        <div id="final-rec-book"></div>
+                    <div style="flex:1; padding:10px;">
+                        <div style="display:flex; align-items:center; gap:5px; margin-bottom:5px;">
+                            <i class="fas fa-book" style="color:var(--wrecked-red); font-size:0.8em;"></i>
+                            <h4 style="color:#888; margin:0; font-size:0.7em;">Oku</h4>
+                        </div>
+                        <div id="final-rec-book" style="font-size:0.65em; line-height:1.4; color:#ddd;"></div>
                     </div>
                 </div>
 
-                <div class="share-footer" style="margin-top:10px; font-size:0.6em; opacity:0.5;">wrecked-app.vercel.app
-                </div>
+                <div class="share-footer" style="margin-top:12px; font-size:0.6em; opacity:0.4;">
+                    mustify-wrecked.vercel.app</div>
             </div>
         </div>
 

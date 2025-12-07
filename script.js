@@ -605,6 +605,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const btnNextFinal = document.getElementById('btn-next-final');
     if (btnNextFinal) btnNextFinal.addEventListener('click', () => {
+        generateFortune(); // Ensure data is populated
         showScreen('screen-final');
     });
 
