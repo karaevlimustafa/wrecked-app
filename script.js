@@ -959,8 +959,21 @@ function generateFortune() {
     document.getElementById('sum-rec-book').innerHTML = "";
 
     if (!persona.b || persona.b.length === 0) document.getElementById('rec-books').innerHTML = "<li>Kitap yok.</li>";
-}
 
+    // --- POPULATE FINAL SCREEN (Duplicate logic for final- prefix) ---
+    const updateFinal = (id, val) => { const el = document.getElementById('final-' + id); if (el) el.innerText = val; };
+    const eraVal = currentLang === 'tr' ? detailedSpiritAge : detailedSpiritAgeEN; // Re-declare for scope
+    const traitVal = currentLang === 'tr' ? toxicTrait : toxicTraitEN; // Re-declare for scope
+    updateFinal('stat-era', eraVal || (currentLang === 'tr' ? "Bilinmiyor" : "Unknown"));
+    updateFinal('stat-mainstream-val', mainstreamScore + "%");
+    const elFinalBar = document.getElementById('final-stat-mainstream-bar');
+    if (elFinalBar) elFinalBar.style.width = mainstreamScore + "%";
+    updateFinal('stat-top-genre', (document.getElementById('stat-top-genre').innerText));
+    updateFinal('stat-toxic', traitVal || (currentLang === 'tr' ? "Sıradan" : "Ordinary"));
+    updateFinal('stat-artist-count', allTopArtists.length || 0);
+    updateFinal('stat-genre-count', topGenres.length || 0);
+    updateFinal('stat-city', cityVal);
+}
 
 
 window.onload = () => {
@@ -1007,4 +1020,20 @@ window.onload = () => {
     document.getElementById('btn-restart').onclick = () => {
         window.location.href = REDIRECT_URI;
     };
+
+    // NEW: Final Screen Navigation
+    const btnNextFinal = document.getElementById('btn-next-final');
+    if (btnNextFinal) btnNextFinal.onclick = () => {
+        showScreen('screen-final');
+    };
+
+    // NEW: Final Restart
+    const btnRestartFinal = document.getElementById('btn-restart-final');
+    if (btnRestartFinal) btnRestartFinal.onclick = () => {
+        window.location.href = REDIRECT_URI;
+    };
+
+    // Legacy restart removal (safeguard)
+    // if any other restart btn exists, handle it or ignore
 };
+

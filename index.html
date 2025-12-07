@@ -88,15 +88,23 @@
     <!-- SCREEN 6: STATS -->
     <div id="screen-stats" class="screen">
         <h2 class="section-title">Hasar Raporu</h2>
-        <div class="bento-grid" id="stats-grid-view">
+        <div class="bento-grid">
+            <!-- Row 1: Era & City -->
             <div class="bento-box box-large era-box">
                 <h3>Ruh Yaşın</h3>
                 <p id="stat-era">...</p>
             </div>
+            <div class="bento-box box-medium city-box">
+                <h3>Ruh Şehri</h3>
+                <p id="stat-city">...</p>
+            </div>
+
+            <!-- Row 2: Score & Genre -->
             <div class="bento-box box-medium score-box">
-                <h3>Banal Skor</h3>
+                <h3>Banal Skoru</h3>
                 <div class="progress-bar">
-                    <div id="stat-mainstream-bar" style="width:0%"></div>
+                    <div id="stat-mainstream-bar" style="width:0%; background:var(--wrecked-yellow); height:100%">
+                    </div>
                 </div>
                 <p id="stat-mainstream-val">0%</p>
             </div>
@@ -104,10 +112,14 @@
                 <h3>Favori Tür</h3>
                 <p id="stat-top-genre">...</p>
             </div>
+
+            <!-- Row 3: Toxic (Full Width) -->
             <div class="bento-box box-large trait-box">
                 <h3>Toksik Özellik</h3>
                 <p id="stat-toxic">...</p>
             </div>
+
+            <!-- Row 4: Counts -->
             <div class="bento-box box-small artist-box">
                 <h3>Farklı Sanatçı</h3>
                 <p id="stat-artist-count">0</p>
@@ -116,14 +128,60 @@
                 <h3>Keşfedilen Tür</h3>
                 <p id="stat-genre-count">0</p>
             </div>
-            <div class="bento-box box-medium city-box">
-                <h3>Ruh Şehri</h3>
-                <p id="stat-city">...</p>
-            </div>
         </div>
         <div class="nav-row">
             <button class="btn-secondary" onclick="showScreen('screen-genres')">⬅</button>
             <button id="btn-next-persona" class="btn-nav pulse-btn">🔮 Falına Bak ➡</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 9: FINAL (Duplicate of STATS) -->
+    <div id="screen-final" class="screen">
+        <h2>🏁 Final Rapor</h2>
+        <div class="bento-grid">
+            <!-- Row 1: Era & City -->
+            <div class="bento-box box-large era-box">
+                <h3>Ruh Yaşın</h3>
+                <p id="final-stat-era">...</p>
+            </div>
+            <div class="bento-box box-medium city-box">
+                <h3>Ruh Şehri</h3>
+                <p id="final-stat-city">...</p>
+            </div>
+
+            <!-- Row 2: Score & Genre -->
+            <div class="bento-box box-medium score-box">
+                <h3>Banal Skoru</h3>
+                <div class="progress-bar">
+                    <div id="final-stat-mainstream-bar" style="width:0%; background:var(--wrecked-yellow); height:100%">
+                    </div>
+                </div>
+                <p id="final-stat-mainstream-val">0%</p>
+            </div>
+            <div class="bento-box box-medium top-genre-box">
+                <h3>Favori Tür</h3>
+                <p id="final-stat-top-genre">...</p>
+            </div>
+
+            <!-- Row 3: Toxic (Full Width) -->
+            <div class="bento-box box-large trait-box">
+                <h3>Toksik Özellik</h3>
+                <p id="final-stat-toxic">...</p>
+            </div>
+
+            <!-- Row 4: Counts -->
+            <div class="bento-box box-small artist-box">
+                <h3>Farklı Sanatçı</h3>
+                <p id="final-stat-artist-count">0</p>
+            </div>
+            <div class="bento-box box-small genre-box">
+                <h3>Keşfedilen Tür</h3>
+                <p id="final-stat-genre-count">0</p>
+            </div>
+        </div>
+        <div class="nav-row">
+            <button class="btn-secondary" onclick="showScreen('screen-persona')">⬅</button>
+            <button id="btn-restart-final" class="btn-primary" style="background:#444; color:white;">Başa Dön ↺</button>
         </div>
     </div>
 
@@ -146,16 +204,11 @@
                 </div>
             </div>
         </div>
-        <div class="rec-column">
-            <h4>📚 Oku</h4>
-            <ul id="rec-books"></ul>
-        </div>
     </div>
     </div>
     <div class="nav-row">
         <button class="btn-secondary" onclick="showScreen('screen-stats')">⬅</button>
-        <!-- RESTART BUTTON MOVED HERE -->
-        <button id="btn-restart" class="btn-primary" style="background:#444; color:white;">Başa Dön ↺</button>
+        <button id="btn-next-final" class="btn-nav pulse-btn">Sonuç ➡</button>
     </div>
     </div>
 
