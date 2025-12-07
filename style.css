@@ -631,32 +631,43 @@ h2 {
 }
 
 /* 1. BRANDING - Safer Centered Layout */
+/* 1. BRANDING - Option 2 (Compact Match) */
 #final-summary-card .share-header {
     display: flex;
     justify-content: center;
     position: relative;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    gap: 5px;
+    /* Tighter gap */
 }
 
 #final-summary-card .share-brand h1 {
-    font-size: 2.5em;
+    font-size: 2.8em;
+    font-weight: 900;
+    letter-spacing: -4px;
     margin: 0;
-    line-height: 1;
+    line-height: 0.9;
+    transform: scaleX(0.95);
+    color: #fff;
 }
 
-.brand-sub {
-    font-size: 0.5em;
-    color: #000;
-    background: var(--wrecked-green);
+/* Specific overrides for the badge inside summary card */
+#final-summary-card .brand-sub {
     position: absolute;
-    /* Safer relative position near the logo */
-    top: 5px;
-    right: 40px;
+    top: -2px;
+    right: 5px;
+    transform: rotate(-6deg);
     font-weight: 800;
+    font-size: 0.55em;
     padding: 1px 4px;
     border-radius: 4px;
-    transform: rotate(-5deg);
     z-index: 10;
+    /* Option 2 Specific Style: Outlined */
+    background: transparent;
+    border: 2px solid var(--wrecked-green);
+    color: var(--wrecked-green);
+    text-shadow: 0 0 5px var(--wrecked-green);
+    box-shadow: none;
 }
 
 /* 2. PERSONA HERO */
