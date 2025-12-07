@@ -78,7 +78,7 @@ function toggleLanguage() {
     if (allTopArtists.length > 0) {
         updateStats();
         if (currentPersona) generateFortune();
-        populateSummary();
+        // populateSummary(); REMOVED
     }
 }
 
