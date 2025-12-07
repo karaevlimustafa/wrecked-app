@@ -603,10 +603,9 @@ document.addEventListener('DOMContentLoaded', () => {
         generateFortune();
     });
 
-    const btnNextSummary = document.getElementById('btn-next-summary');
-    if (btnNextSummary) btnNextSummary.addEventListener('click', () => {
-        showScreen('screen-summary');
-        populateSummary();
+    const btnNextFinal = document.getElementById('btn-next-final');
+    if (btnNextFinal) btnNextFinal.addEventListener('click', () => {
+        showScreen('screen-final');
     });
 
     const btnRestart = document.getElementById('btn-restart');
@@ -1022,10 +1021,7 @@ window.onload = () => {
     };
 
     // NEW: Final Screen Navigation
-    const btnNextFinal = document.getElementById('btn-next-final');
-    if (btnNextFinal) btnNextFinal.onclick = () => {
-        showScreen('screen-final');
-    };
+
 
     // NEW: Final Restart
     const btnRestartFinal = document.getElementById('btn-restart-final');
