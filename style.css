@@ -113,6 +113,8 @@ body {
     position: relative;
     display: flex;
     align-items: center;
+    gap: 5px;
+    /* Tighter gap per request */
 }
 
 .brand-wrapper {
@@ -120,50 +122,53 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-left: 15px;
+    margin-left: 0;
+    /* Remove left margin for tighter fit */
 }
 
 .brand-name {
     font-size: 2.8em;
     font-weight: 900;
-    letter-spacing: -2px;
+    letter-spacing: -4px;
+    /* Condensed spacing */
     color: var(--text-primary);
     text-transform: none;
     line-height: 0.9;
     margin: 0;
+    transform: scaleX(0.95);
+    /* Condense width */
 }
 
 @media (max-width: 400px) {
     .brand-name {
-        font-size: 2em;
-        /* Smaller on mobile */
+        font-size: 2.2em;
+        /* Adjusted for mobile */
     }
 
     .app-header {
-        padding: 0 50px;
-        /* Reduce padding slightly but keep enough for button */
+        padding: 0 40px;
     }
 }
 
 .brand-sub {
-    font-size: 0.55em;
-    color: var(--wrecked-green);
     position: absolute;
-    top: -8px;
-    /* Closer to text */
+    top: -2px;
     right: 5px;
-    /* Adjust as needed */
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    text-transform: none;
-    transform: rotate(-3deg);
-    /* Less rotation */
-    background: #000;
+    transform: rotate(-6deg);
+    font-weight: 800;
+    font-size: 0.55em;
     padding: 1px 4px;
-    border: 1px solid var(--wrecked-green);
     border-radius: 4px;
     z-index: 10;
+    /* Option 2 Specific Style: Outlined */
+    background: transparent;
+    border: 2px solid var(--wrecked-green);
+    color: var(--wrecked-green);
+    text-shadow: 0 0 5px var(--wrecked-green);
+    box-shadow: none;
 }
+
+
 
 /* LOGO IMAGE */
 .wrecked-logo-img-container {
@@ -601,35 +606,36 @@ h2 {
     max-height: none;
     font-size: 0.9em;
     /* Slightly smaller to fit if long */
+    margin-bottom: 20px;
 }
 
-/* --- FINAL SUMMARY CARD (STORY LAYOUT) --- */
-/* --- FINAL SUMMARY CARD (STORY LAYOUT) --- */
+/* --- FINAL SUMMARY CARD (STABLE DARK LAYOUT) --- */
 #final-summary-card {
     background: #050505;
     border: 3px solid var(--wrecked-green);
-    border-radius: 0;
+    border-radius: 12px;
+    /* Standard rounded corners */
     box-shadow: 0 0 40px rgba(46, 204, 113, 0.2);
-    /* Strict 9:16 Ratio / Dimensions */
+    /* Fluid Height based on content */
     width: 100%;
     max-width: 400px;
     height: auto;
-    aspect-ratio: 9/16;
-    margin: 0 auto 20px auto;
+    margin: 0 auto 30px auto;
     padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
+    /* Allow content to breathe */
 }
 
-/* 1. BRANDING */
+/* 1. BRANDING - Safer Centered Layout */
 #final-summary-card .share-header {
     display: flex;
     justify-content: center;
     position: relative;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
 }
 
 #final-summary-card .share-brand h1 {
@@ -643,9 +649,9 @@ h2 {
     color: #000;
     background: var(--wrecked-green);
     position: absolute;
-    /* Between k and d, above e approx */
+    /* Safer relative position near the logo */
     top: 5px;
-    right: 38px;
+    right: 40px;
     font-weight: 800;
     padding: 1px 4px;
     border-radius: 4px;
@@ -659,40 +665,31 @@ h2 {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin-bottom: 10px;
-    flex-grow: 1;
+    margin-bottom: 20px;
 }
 
 #final-summary-card .share-content h2 {
-    font-size: 2.2em;
-    line-height: 1;
+    font-size: 2em;
+    line-height: 1.1;
     margin: 0 0 10px 0;
     color: var(--wrecked-green);
     text-transform: uppercase;
 }
 
-.hero-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    width: 100%;
-}
-
 #final-summary-card .share-image-box {
-    width: 90px;
-    height: 90px;
+    width: 100px;
+    height: 100px;
     border: 2px solid #fff;
     transform: rotate(-3deg);
     flex-shrink: 0;
+    margin-bottom: 10px;
 }
 
 #final-summary-card .story-snippet {
-    font-size: 0.8em;
-    line-height: 1.3;
-    text-align: left;
-    max-height: 100px;
-    overflow: hidden;
+    font-size: 0.85em;
+    line-height: 1.4;
+    text-align: center;
+    /* Better for hero card */
     color: #cecece;
 }
 
@@ -700,21 +697,18 @@ h2 {
 .bento-grid.condensed {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto auto;
-    gap: 8px;
+    gap: 10px;
     width: 100%;
-    margin-bottom: 10px;
 }
 
 .stat-box {
-    padding: 8px;
+    padding: 10px;
     border-radius: 8px;
     background: #111;
     border: 1px solid #333;
-    min-height: 50px;
 }
 
-/* Special formatting for specific boxes to fit logic */
+/* Logic for grid layout */
 .era-box,
 .city-box,
 .score-box,
@@ -725,109 +719,28 @@ h2 {
 .trait-box {
     grid-column: span 2;
     background: linear-gradient(90deg, #300 0%, #111 100%);
-    border: 1px solid #500;
 }
 
 .stat-box h3 {
     font-size: 0.6em;
-    margin-bottom: 2px;
+    margin-bottom: 4px;
     color: #999;
 }
 
 .stat-box .stat-value {
-    font-size: 1em;
+    font-size: 1.1em;
     color: #fff;
 }
 
-/* 4. FOOTER / RECS - Hide recs to fit on one card */
 .share-recs {
     display: none;
 }
 
 .share-footer {
-    font-size: 0.6em;
+    display: block;
+    margin-top: 20px;
+    font-size: 0.7em;
     opacity: 0.5;
-    margin-top: auto;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-.bento-grid.condensed {
-    gap: 5px;
-    /* Tighter gaps */
-    margin: 5px 0;
-}
-
-.bento-grid.condensed .bento-box {
-    padding: 6px 8px;
-    /* Tighter internal padding */
-    border-radius: 8px;
-    min-height: 50px;
-    /* Smaller min height */
-    height: auto;
-}
-
-.bento-grid.condensed .bento-box p {
-    font-size: clamp(0.9rem, 4vw, 1.1rem);
-    /* Dynamic scaling */
-    line-height: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.bento-grid.condensed .trait-box p,
-.bento-grid.condensed .top-genre-box p {
-    white-space: normal;
-    /* Allow wrap for long traits */
-    font-size: 0.85em;
-    line-height: 1.1;
-}
-
-.share-recs {
-    margin-top: 5px;
-    padding: 8px;
-    flex-grow: 1;
-    /* Fill remaining space */
-    min-height: 0;
-}
-
-.share-recs-col p {
-    font-size: 0.6em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.4;
-}
-
-.share-btn {
-    border: none;
-    padding: 12px;
-    border-radius: 10px;
-    font-weight: 700;
-    cursor: pointer;
-    color: white;
-    font-size: 0.9em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: transform 0.2s;
-}
-
-.share-btn:hover {
-    transform: scale(1.02);
-}
-
-.share-btn.download {
-    background: #333;
-    border: 1px solid #555;
-}
-
-.share-btn.share-native {
-    background: var(--wrecked-green);
-    color: black;
-    box-shadow: 0 0 10px rgba(46, 204, 113, 0.4);
 }
 
 /* Navigation Buttons */
@@ -878,17 +791,13 @@ h2 {
     display: flex;
     justify-content: center;
     gap: 6px;
-    /* Very tight gap */
     margin-bottom: 10px;
     flex-wrap: nowrap;
-    /* strict single row */
     overflow-x: auto;
-    /* safety scroll if really needed */
 }
 
 .icon-btn {
     width: 38px;
-    /* Compact size */
     height: 38px;
     border-radius: 8px;
     border: none;
@@ -934,28 +843,4 @@ h2 {
 }
 
 /* --- COFFEE BUTTON --- */
-.coffee-btn-large {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #FFDD00;
-    color: #000;
-    font-weight: 900;
-    font-size: 1.2em;
-    padding: 15px;
-    border-radius: 12px;
-    text-decoration: none;
-    width: 100%;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 15px rgba(255, 221, 0, 0.3);
-    transition: transform 0.2s;
-}
-
-.coffee-btn-large:hover {
-    transform: scale(1.02);
-}
-
-.coffee-btn-large span {
-    font-size: 1.5em;
-    margin-right: 10px;
-}
+/* Removing coffee button per request, just keeping util classes if any */

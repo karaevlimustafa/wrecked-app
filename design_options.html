@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo Design Alternatives</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --wrecked-green: #2ecc71;
+            /* Matching existing */
+            --bg-color: #000;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+            gap: 60px;
+        }
+
+        .design-row {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            border: 1px solid #333;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .design-label {
+            color: #777;
+            margin-bottom: 20px;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* BASE STRUCTURE */
+        .logo-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wrecked-logo-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            /* Assume circle */
+            background: var(--wrecked-green);
+            /* Fallback */
+            border: 2px solid var(--wrecked-green);
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.4);
+        }
+
+        .brand-wrapper {
+            position: relative;
+            margin-left: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .brand-name {
+            font-size: 3em;
+            font-weight: 900;
+            line-height: 0.9;
+            margin: 0;
+            color: #fff;
+            letter-spacing: -2px;
+        }
+
+        .brand-sub {
+            position: absolute;
+            background: var(--wrecked-green);
+            color: #000;
+            font-weight: 800;
+            font-size: 0.6em;
+            padding: 1px 6px;
+            border-radius: 4px;
+            z-index: 10;
+        }
+
+        /* --- OPTION 1: BALANCED (Current Best Guess) --- */
+        .opt-1 .brand-sub {
+            top: -10px;
+            right: 0px;
+            transform: rotate(-3deg);
+            box-shadow: 0 0 10px rgba(46, 204, 113, 0.6);
+        }
+
+        /* --- OPTION 2: COMPACT & INTERLOCKED --- */
+        /* Overlapping logo, tighter text, badge tucked in closely */
+        .opt-2 .logo-container {
+            gap: 10px;
+        }
+
+        .opt-2 .brand-name {
+            letter-spacing: -4px;
+            transform: scaleX(0.95);
+            /* Condense */
+        }
+
+        .opt-2 .brand-sub {
+            top: -2px;
+            right: 5px;
+            transform: rotate(-6deg);
+            font-size: 0.55em;
+            background: transparent;
+            border: 2px solid var(--wrecked-green);
+            color: var(--wrecked-green);
+            text-shadow: 0 0 5px var(--wrecked-green);
+            box-shadow: none;
+        }
+
+        /* --- OPTION 3: NEON GLOW & CENTERED BADGE --- */
+        /* Centered badge effectively splitting/topping the word */
+        .opt-3 .wrecked-logo-img {
+            box-shadow: 0 0 25px var(--wrecked-green);
+        }
+
+        .opt-3 .brand-sub {
+            top: -12px;
+            right: 15px;
+            /* More centered */
+            transform: rotate(0deg);
+            background: #000;
+            color: var(--wrecked-green);
+            border: 1px solid var(--wrecked-green);
+            box-shadow: 0 0 8px var(--wrecked-green);
+            font-size: 0.7em;
+            letter-spacing: 1px;
+        }
+
+        /* --- OPTION 4: AGGRESSIVE OFFSET --- */
+        /* Logo raised, Text lower, Badge high and angled */
+        .opt-4 .logo-container {
+            align-items: flex-end;
+            /* Offset alignment */
+        }
+
+        .opt-4 .wrecked-logo-img {
+            margin-bottom: 10px;
+            transform: rotate(-10deg);
+        }
+
+        .opt-4 .brand-name {
+            font-style: italic;
+            transform: skew(-5deg);
+        }
+
+        .opt-4 .brand-sub {
+            top: -15px;
+            right: -10px;
+            /* Hanging off edge */
+            transform: rotate(-12deg);
+            background: var(--wrecked-green);
+            color: black;
+            font-size: 0.7em;
+            padding: 2px 8px;
+            box-shadow: 4px 4px 0px rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="design-row opt-1">
+        <div class="design-label">Option 1: Balanced (Dengeli)</div>
+        <div class="logo-container">
+            <img src="logo_final.png" class="wrecked-logo-img" alt="">
+            <div class="brand-wrapper">
+                <h1 class="brand-name">Wrecked</h1>
+                <div class="brand-sub">Mustify</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="design-row opt-2">
+        <div class="design-label">Option 2: Compact Outline (Kompakt Çizgili)</div>
+        <div class="logo-container">
+            <img src="logo_final.png" class="wrecked-logo-img" alt="">
+            <div class="brand-wrapper">
+                <h1 class="brand-name">Wrecked</h1>
+                <div class="brand-sub">Mustify</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="design-row opt-3">
+        <div class="design-label">Option 3: Neon Glow (Neon Parlama)</div>
+        <div class="logo-container">
+            <img src="logo_final.png" class="wrecked-logo-img" alt="">
+            <div class="brand-wrapper">
+                <h1 class="brand-name">Wrecked</h1>
+                <div class="brand-sub">Mustify</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="design-row opt-4">
+        <div class="design-label">Option 4: Maximum Chaos (Agresif)</div>
+        <div class="logo-container">
+            <img src="logo_final.png" class="wrecked-logo-img" alt="">
+            <div class="brand-wrapper">
+                <h1 class="brand-name">Wrecked</h1>
+                <div class="brand-sub">Mustify</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
