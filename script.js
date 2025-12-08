@@ -961,6 +961,26 @@ function updateStats() {
     document.getElementById('stat-city').innerText = city;
 }
 
+// --- NEW V2: VIBE CALCULATOR ---
+function calculateVibe(features) {
+    if (!features || features.length === 0) return { mood: 'neutral', energy: 'medium', dance: 'medium', raw: { valence: 0.5, energy: 0.5, dance: 0.5 } };
+
+    // Filter nulls or invalid entries
+    const valid = features.filter(f => f && typeof f.valence === 'number');
+    if (valid.length === 0) return { mood: 'neutral', energy: 'medium', dance: 'medium', raw: { valence: 0.5, energy: 0.5, dance: 0.5 } };
+
+    const avg = (key) => valid.reduce((a, b) => a + (b[key] || 0), 0) / valid.length;
+
+    const valence = avg('valence'); // 0.0 (sad) - 1.0 (happy)
+    const energy = avg('energy');   // 0.0 - 1.0
+    const dance = avg('danceability'); // 0.0 - 1.0
+
+    let mood = valence > 0.6 ? 'happy' : (valence < 0.4 ? 'sad' : 'neutral');
+    let enLvl = energy > 0.6 ? 'high' : (energy < 0.4 ? 'low' : 'medium');
+
+    return { mood, energy: enLvl, dance, raw: { valence, energy, dance } };
+}
+
 // --- NEW V2: SARCASTIC STORY ENGINE (EXPANDED) ---
 const STORY_FRAGMENTS = {
     opener: {
