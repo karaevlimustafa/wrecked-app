@@ -577,6 +577,14 @@ window.downloadImage = function () {
 
 document.addEventListener('DOMContentLoaded', () => {
     // LOGIN & START
+    // 1. Language Init
+    const btnLang = document.getElementById('btn-lang');
+    if (btnLang) {
+        btnLang.addEventListener('click', toggleLanguage);
+    }
+    updateDomTexts();
+
+    // LOGIN & START
     const btnLogin = document.getElementById('btn-login');
     if (btnLogin) btnLogin.addEventListener('click', startAuth);
     const btnStart = document.getElementById('btn-start');
@@ -605,12 +613,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const btnNextFinal = document.getElementById('btn-next-final');
     if (btnNextFinal) btnNextFinal.addEventListener('click', () => {
-        generateFortune(); // Ensure data is populated
-        showScreen('screen-final');
+        try {
+            generateFortune(); // Ensure data is populated
+            showScreen('screen-final');
+        } catch (e) {
+            console.error("Error showing final screen:", e);
+            alert("Sonuç ekranı yüklenirken bir hata oluştu: " + e.message);
+        }
     });
 
     const btnRestart = document.getElementById('btn-restart');
     if (btnRestart) btnRestart.addEventListener('click', () => {
+        sessionStorage.clear();
+        window.location.href = '/index.html';
+    });
+
+    const btnRestartFinal = document.getElementById('btn-restart-final');
+    if (btnRestartFinal) btnRestartFinal.addEventListener('click', () => {
         sessionStorage.clear();
         window.location.href = '/index.html';
     });
@@ -1000,61 +1019,6 @@ function generateFortune() {
 }
 
 
-window.onload = () => {
-    // 1. Language Init
-    updateDomTexts();
-    const btnLang = document.getElementById('btn-lang');
-    if (btnLang) btnLang.onclick = toggleLanguage;
+// End of script
 
-    // 2. Auth Check
-    const hash = window.location.hash;
-    if (hash) {
-        const token = new URLSearchParams(hash.substring(1)).get('access_token');
-        if (token) {
-            window.location.hash = '';
-            document.getElementById('screen-login').classList.remove('active-screen');
-            showScreen('screen-welcome');
-            fetchSpotifyData(token);
-        }
-    }
-
-    document.getElementById('btn-login').onclick = () => {
-        const url = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=${encodeURIComponent(SCOPES)}`;
-        window.location.href = url;
-    };
-
-    document.getElementById('btn-start').onclick = () => showScreen('screen-songs');
-    document.getElementById('btn-next-albums').onclick = () => showScreen('screen-albums');
-    document.getElementById('btn-next-artists').onclick = () => showScreen('screen-artists');
-    document.getElementById('btn-next-genres').onclick = () => showScreen('screen-genres');
-
-    document.getElementById('btn-next-stats').onclick = () => {
-        updateStats();
-        showScreen('screen-stats');
-    };
-
-    document.getElementById('btn-next-persona').onclick = () => {
-        generateFortune();
-        showScreen('screen-persona');
-        // populateSummary() removed as screen is deleted
-    };
-
-    // btn-next-summary removed
-
-    document.getElementById('btn-restart').onclick = () => {
-        window.location.href = REDIRECT_URI;
-    };
-
-    // NEW: Final Screen Navigation
-
-
-    // NEW: Final Restart
-    const btnRestartFinal = document.getElementById('btn-restart-final');
-    if (btnRestartFinal) btnRestartFinal.onclick = () => {
-        window.location.href = REDIRECT_URI;
-    };
-
-    // Legacy restart removal (safeguard)
-    // if any other restart btn exists, handle it or ignore
-};
 
