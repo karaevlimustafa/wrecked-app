@@ -94,7 +94,7 @@ function updateDomTexts() {
         'btn-next-albums': 'btn-next-albums', 'btn-next-artists': 'btn-next-artists',
         'btn-next-genres': 'btn-next-genres', 'btn-next-stats': 'btn-next-stats',
         'btn-next-persona': 'btn-next-persona', 'btn-next-summary': 'btn-next-summary',
-        'btn-restart': 'btn-restart'
+        'btn-restart': 'btn-restart', 'btn-restart-final': 'btn-restart'
     };
 
     // Update simple IDs matches
@@ -835,9 +835,13 @@ function formatGenre(g) {
     // Custom replacements for common data
     if (g === 'turkish pop') return currentLang === 'tr' ? 'TÜRKÇE POP' : 'TURKISH POP';
     if (g === 'turkish rock') return currentLang === 'tr' ? 'TÜRKÇE ROCK' : 'TURKISH ROCK';
+    if (g === 'turkish hip hop') return currentLang === 'tr' ? 'TÜRKÇE HIP HOP' : 'TURKISH HIP HOP';
+    if (g === 'turkish trap') return currentLang === 'tr' ? 'TÜRKÇE TRAP' : 'TURKISH TRAP';
+    if (g === 'arabesk') return currentLang === 'tr' ? 'ARABESK' : 'ARABESQUE';
+    if (g === 'anadolu rock') return currentLang === 'tr' ? 'ANADOLU ROCK' : 'ANATOLIAN ROCK';
 
     // Default capitalize
-    return g.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    return g.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ').toUpperCase();
 }
 
 function updateStats() {
@@ -1019,6 +1023,20 @@ function generateFortune() {
 
     const finalBook = document.getElementById('final-rec-book');
     if (finalBook) finalBook.innerHTML = persona.b.map(x => `<div>• ${x}</div>`).join('');
+
+    // 4. Update Final Card Labels (Translation)
+    const setFinalLbl = (id, key) => { const el = document.getElementById(id); if (el) el.innerText = UI_TEXTS[key][currentLang]; };
+    setFinalLbl('final-lbl-era', 'lbl-era');
+    setFinalLbl('final-lbl-score', 'lbl-score');
+    setFinalLbl('final-lbl-genre', 'lbl-genre');
+    setFinalLbl('final-lbl-toxic', 'lbl-toxic');
+    setFinalLbl('final-lbl-city', 'lbl-city');
+    setFinalLbl('final-lbl-art-count', 'lbl-art-count');
+    setFinalLbl('final-lbl-gen-count', 'lbl-gen-count');
+
+    // Ensure Restart Button is also updated dynamically here just in case language changed mid-flow
+    const btnRestartFinal = document.getElementById('btn-restart-final');
+    if (btnRestartFinal) btnRestartFinal.innerText = UI_TEXTS['btn-restart'][currentLang];
 }
 
 

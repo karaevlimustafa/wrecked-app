@@ -918,23 +918,44 @@ h2 {
 }
 
 /* Neon Icons */
+/* Neon Icons */
+.share-actions-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.share-actions-container .social-actions-row {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Increased gap */
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    width: 100%;
+}
+
 .share-actions-container .icon-btn {
-    width: 44px;
-    height: 44px;
-    font-size: 1.3em;
+    width: 50px; /* Slightly larger */
+    height: 50px;
+    font-size: 1.4em;
     border: 1px solid var(--wrecked-green);
-    box-shadow: 0 0 10px rgba(46, 204, 113, 0.4);
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.3);
     color: var(--wrecked-green);
     background: transparent !important;
-    /* Override brand colors */
     border-radius: 50%;
-    margin: 0 6px;
+    margin: 0; /* Handled by gap */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
 }
 
 .share-actions-container .icon-btn:hover {
     background: var(--wrecked-green) !important;
     color: #000 !important;
-    box-shadow: 0 0 20px rgba(46, 204, 113, 0.8);
+    box-shadow: 0 0 25px rgba(46, 204, 113, 0.8);
+    transform: translateY(-3px);
 }
 
 /* Başa Dön Button Style */
@@ -942,10 +963,19 @@ h2 {
     background: transparent !important;
     border: 1px solid var(--wrecked-green) !important;
     color: #fff !important;
-    box-shadow: 0 0 15px rgba(46, 204, 113, 0.2);
+    box-shadow: 0 0 15px rgba(46, 204, 113, 0.1);
     border-radius: 30px;
     padding: 12px 30px;
     font-weight: 700;
     margin-top: 10px;
     width: 100%;
+    max-width: 300px; /* Limit width */
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#btn-restart-final:hover {
+    background: var(--wrecked-green) !important;
+    color: #000 !important;
+    box-shadow: 0 0 25px rgba(46, 204, 113, 0.4);
 }

@@ -144,11 +144,15 @@
             <!-- 1. HEADER: Centered Logo & Title -->
             <div class="share-header" style="flex-direction:column; gap:10px; margin-bottom: 20px; text-align:center;">
                 <div style="display:flex; align-items:center; gap:8px;">
-                    <div class="wrecked-logo-img-container small"
-                        style="width:40px; height:40px; border:none; background:transparent;">
-                        <img src="logo_final.png" alt="W" class="wrecked-logo-img" style="border-radius:50%;">
+                    <div class="logo-container" style="transform: scale(0.8);"> <!-- specific scale for card -->
+                        <div class="wrecked-logo-img-container" style="width:50px; height:50px;">
+                            <img src="logo_final.png" alt="Wrecked" class="wrecked-logo-img">
+                        </div>
+                        <div class="brand-wrapper">
+                            <div class="brand-sub">Mustify</div>
+                            <h1 class="brand-name" style="font-size:2em;">Wrecked</h1>
+                        </div>
                     </div>
-                    <h1 style="font-size:1.2em; margin:0; letter-spacing:1px; font-weight:800;">WRECKED</h1>
                 </div>
                 <h2 id="final-archetype-title"
                     style="font-size:1.8em; margin:0; text-transform:uppercase; color:var(--wrecked-green); text-shadow:0 0 15px rgba(46,204,113,0.5); line-height:1;">
@@ -172,7 +176,7 @@
                     <div class="bento-box box-medium city-box"
                         style="background:linear-gradient(135deg, #2c3e50, #000) !important; border:none !important;">
                         <div style="display:flex; justify-content:space-between; width:100%;">
-                            <h3 style="color:#aaa;">Ruh Şehri</h3>
+                            <h3 id="final-lbl-city" style="color:#aaa;">Ruh Şehri</h3>
                             <i class="fas fa-city" style="color:#fff; font-size:0.8em; opacity:0.5;"></i>
                         </div>
                         <p id="final-stat-city" style="font-size:1.1em; margin-top:5px; color:#fff;">...</p>
@@ -180,7 +184,7 @@
                     <div class="bento-box box-medium era-box"
                         style="background:#1b4d3e !important; border:none !important;">
                         <div style="display:flex; justify-content:space-between; width:100%;">
-                            <h3 style="color:#8f8;">Ruh Yaşın</h3>
+                            <h3 id="final-lbl-era" style="color:#8f8;">Ruh Yaşın</h3>
                             <i class="fas fa-clock" style="color:#8f8; font-size:0.8em;"></i>
                         </div>
                         <p id="final-stat-era" style="font-size:1em; margin-top:5px; color:#fff; font-weight:700;">...
@@ -189,9 +193,9 @@
 
                     <!-- Row 2: Score (Black+Yellow) & Genre (Large Type) -->
                     <div class="bento-box box-medium score-box"
-                        style="background:#000 !important; border:1px solid #333 !important;">
+                        style="background:#000 !important; border:1px solid #333 !important; position:relative;">
                         <div style="display:flex; justify-content:space-between; width:100%;">
-                            <h3 style="color:#666;">Banal Skoru</h3>
+                            <h3 id="final-lbl-score" style="color:#666;">Banal Skoru</h3>
                             <i class="fas fa-bolt" style="color:var(--wrecked-yellow); font-size:0.8em;"></i>
                         </div>
                         <div class="progress-bar" style="height:12px; margin:8px 0; background:rgba(255,255,255,0.1);">
@@ -205,7 +209,7 @@
                     </div>
                     <div class="bento-box box-medium top-genre-box"
                         style="background:linear-gradient(45deg, #111, #222) !important;">
-                        <h3 style="color:#888;">Favori Tür</h3>
+                        <h3 id="final-lbl-genre" style="color:#888;">Favori Tür</h3>
                         <p id="final-stat-top-genre"
                             style="font-size:1.1em; margin-top:2px; color:#3498db; text-transform:uppercase; font-weight:900; letter-spacing:-0.5px;">
                             ...</p>
@@ -215,7 +219,7 @@
                     <div class="bento-box box-large trait-box"
                         style="text-align:left; padding:12px; background:linear-gradient(135deg, #c0392b, #8e44ad) !important; border:none !important;">
                         <div style="display:flex; justify-content:space-between; width:100%;">
-                            <h3 style="color:#ffcccc;">Toksik Özellik</h3>
+                            <h3 id="final-lbl-toxic" style="color:#ffcccc;">Toksik Özellik</h3>
                             <i class="fas fa-biohazard" style="color:#fff; font-size:0.9em;"></i>
                         </div>
                         <p id="final-stat-toxic"
@@ -225,11 +229,11 @@
 
                     <!-- Row 4: Counts -->
                     <div class="bento-box box-small artist-box" style="background:#111 !important;">
-                        <h3 style="font-size:0.6em; color:#555;">Artist</h3>
+                        <h3 id="final-lbl-art-count" style="font-size:0.6em; color:#555;">Artist</h3>
                         <p id="final-stat-artist-count" style="font-size:1.5em; color:#fff;">0</p>
                     </div>
                     <div class="bento-box box-small genre-box" style="background:#111 !important;">
-                        <h3 style="font-size:0.6em; color:#555;">Tür</h3>
+                        <h3 id="final-lbl-gen-count" style="font-size:0.6em; color:#555;">Tür</h3>
                         <p id="final-stat-genre-count" style="font-size:1.5em; color:#fff;">0</p>
                     </div>
                 </div>
