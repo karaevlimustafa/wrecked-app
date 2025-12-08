@@ -103,38 +103,44 @@ function updateDomTexts() {
         if (el) el.innerText = UI_TEXTS[key][currentLang];
     }
 
-    // Update Headers (some are classes or complex)
-    document.querySelector('#screen-login h1').innerHTML = UI_TEXTS['h-login'][currentLang];
-    document.querySelector('#screen-login p').innerText = UI_TEXTS['subtitle-login'][currentLang];
-    document.querySelector('#screen-welcome h2').innerHTML = UI_TEXTS['h-loading'][currentLang];
+    // Safe update helper
+    const safeSetText = (sel, text) => {
+        const el = document.querySelector(sel);
+        if (el) el.innerHTML = text;
+    };
+
+    // Update Headers
+    safeSetText('#screen-login h1', UI_TEXTS['h-login'][currentLang]);
+    safeSetText('#screen-login p', UI_TEXTS['subtitle-login'][currentLang]);
+    safeSetText('#screen-welcome h2', UI_TEXTS['h-loading'][currentLang]);
 
     // Section Headers
-    document.querySelector('#screen-songs h2').innerText = UI_TEXTS['t-songs'][currentLang];
-    document.querySelector('#screen-albums h2').innerText = UI_TEXTS['t-albums'][currentLang];
-    document.querySelector('#screen-artists h2').innerText = UI_TEXTS['t-artists'][currentLang];
-    document.querySelector('#screen-genres h2').innerText = UI_TEXTS['t-genres'][currentLang];
-    document.querySelector('#screen-stats h2').innerText = UI_TEXTS['t-stats'][currentLang];
-    document.querySelector('#screen-persona h2').innerText = UI_TEXTS['t-persona'][currentLang];
-    document.querySelector('#screen-summary h2').innerText = UI_TEXTS['t-summary'][currentLang];
+    safeSetText('#screen-songs h2', UI_TEXTS['t-songs'][currentLang]);
+    safeSetText('#screen-albums h2', UI_TEXTS['t-albums'][currentLang]);
+    safeSetText('#screen-artists h2', UI_TEXTS['t-artists'][currentLang]);
+    safeSetText('#screen-genres h2', UI_TEXTS['t-genres'][currentLang]);
+    safeSetText('#screen-stats h2', UI_TEXTS['t-stats'][currentLang]);
+    safeSetText('#screen-persona h2', UI_TEXTS['t-persona'][currentLang]);
+    safeSetText('#screen-summary h2', UI_TEXTS['t-summary'][currentLang]);
 
     // Stats Labels
-    document.querySelector('.era-box h3').innerText = UI_TEXTS['lbl-era'][currentLang];
-    document.querySelector('.score-box h3').innerText = UI_TEXTS['lbl-score'][currentLang];
-    document.querySelector('.top-genre-box h3').innerText = UI_TEXTS['lbl-genre'][currentLang];
-    document.querySelector('.trait-box h3').innerText = UI_TEXTS['lbl-toxic'][currentLang];
-    document.querySelector('.city-box h3').innerText = UI_TEXTS['lbl-city'][currentLang];
-    document.querySelector('.artist-box h3').innerText = UI_TEXTS['lbl-art-count'][currentLang];
-    document.querySelector('.genre-box h3').innerText = UI_TEXTS['lbl-gen-count'][currentLang];
+    safeSetText('.era-box h3', UI_TEXTS['lbl-era'][currentLang]);
+    safeSetText('.score-box h3', UI_TEXTS['lbl-score'][currentLang]);
+    safeSetText('.top-genre-box h3', UI_TEXTS['lbl-genre'][currentLang]);
+    safeSetText('.trait-box h3', UI_TEXTS['lbl-toxic'][currentLang]);
+    safeSetText('.city-box h3', UI_TEXTS['lbl-city'][currentLang]);
+    safeSetText('.artist-box h3', UI_TEXTS['lbl-art-count'][currentLang]);
+    safeSetText('.genre-box h3', UI_TEXTS['lbl-gen-count'][currentLang]);
 
     // Recs Headers
-    document.querySelector('#screen-persona .rec-column:nth-child(1) h4').innerText = UI_TEXTS['h-rec-mov'][currentLang];
-    document.querySelector('#screen-persona .rec-column:nth-child(2) h4').innerText = UI_TEXTS['h-rec-read'][currentLang];
+    safeSetText('#screen-persona .rec-column:nth-child(1) h4', UI_TEXTS['h-rec-mov'][currentLang]);
+    safeSetText('#screen-persona .rec-column:nth-child(2) h4', UI_TEXTS['h-rec-read'][currentLang]);
 
     // Share
-    document.querySelector('.share-actions-container h3').innerText = UI_TEXTS['h-share'][currentLang];
-    document.querySelector('.share-actions-container p').innerText = UI_TEXTS['p-share'][currentLang];
-    document.querySelector('.share-native').innerText = UI_TEXTS['btn-share-native'][currentLang];
-    document.querySelector('.download').innerText = UI_TEXTS['btn-download'][currentLang];
+    safeSetText('.share-actions-container h3', UI_TEXTS['h-share'][currentLang]);
+    safeSetText('.share-actions-container p', UI_TEXTS['p-share'][currentLang]);
+    safeSetText('.share-native', UI_TEXTS['btn-share-native'][currentLang]);
+    safeSetText('.download', UI_TEXTS['btn-download'][currentLang]);
 }
 
 // --- ABSURD STORY GENERATOR ---
