@@ -745,10 +745,24 @@ function fetchData(token) {
             calculateMusicEra(allTopTracks);
 
             // NEW (V2): Fetch Audio Features for deep analysis
-            const trackIds = allTopTracks.map(t => t.id).slice(0, 50).join(','); // API limit 100, we take max 50
+            const trackIds = allTopTracks.map(t => t.id).slice(0, 50).join(',');
+
+            if (!trackIds) {
+                console.warn("No tracks found, skipping audio features.");
+                return { audio_features: [] }; // Return mock structure
+            }
+
             return fetch(`https://api.spotify.com/v1/audio-features?ids=${trackIds}`, { headers: { 'Authorization': 'Bearer ' + token } });
         }).then(async r => {
-            if (!r.ok) throw new Error("Audio Features Error");
+            // Handle mock return (not a Response object)
+            if (!(r instanceof Response)) return r;
+
+            if (!r.ok) {
+                const txt = await r.text();
+                // Don't crash, just warn
+                console.warn("Audio Features Error:", txt);
+                return { audio_features: [] };
+            }
             return r.json();
         }).then(d => {
             allAudioFeatures = d.audio_features || [];
