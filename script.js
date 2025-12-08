@@ -656,39 +656,66 @@ async function startAuth() {
             alert("GÜVENLİK HATASI: Spotify girişi 'file://' üzerinden çalışmaz. Lütfen projeyi VS Code 'Live Server' veya localhost üzerinden çalıştırın.");
             return;
         }
-        const v = generateRandomString(128);
-        sessionStorage.setItem('code_verifier', v);
-        const c = await generateCodeChallenge(v);
-        window.location.href = `https://accounts.spotify.com/authorize?response_type=code&client_id=${CLIENT_ID}&scope=${encodeURIComponent(SCOPES)}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&code_challenge_method=S256&code_challenge=${c}`;
+        const codeVerifier = generateRandomString(128);
+        sessionStorage.setItem('code_verifier', codeVerifier);
+
+        // CRITICAL FIX: Store the EXACT Redirect URI used to start the flow
+        // The token exchange MUST use the identical string, or it fails.
+        sessionStorage.setItem('original_redirect_uri', REDIRECT_URI);
+
+        const codeChallenge = await generateCodeChallenge(codeVerifier);
+        window.location.href = `https://accounts.spotify.com/authorize?response_type=code&client_id=${CLIENT_ID}&scope=${encodeURIComponent(SCOPES)}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&code_challenge_method=S256&code_challenge=${codeChallenge}`;
     } catch (e) {
         alert("Giriş başlatılamadı: " + e.message);
         console.error(e);
     }
 }
 function exchangeToken(code) {
-    const v = sessionStorage.getItem('code_verifier');
-    fetch('https://accounts.spotify.com/api/token', {
-        method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ grant_type: 'authorization_code', code, redirect_uri: REDIRECT_URI, client_id: CLIENT_ID, code_verifier: v })
-    }).then(async r => {
-        if (!r.ok) {
-            const txt = await r.text();
-            throw new Error(`Token Hatası: ${r.status} - ${txt}`);
-        }
-        return r.json();
-    }).then(d => {
-        if (d.access_token) {
-            sessionStorage.setItem('access_token', d.access_token);
-            window.history.replaceState({}, document.title, '/index.html');
-            showScreen('screen-welcome');
-        } else {
-            throw new Error('Access Token alınamadı via exchange.');
-        }
-    }).catch(e => {
-        console.error("Auth Error:", e);
-        alert("Giriş başarısız: " + e.message);
-        showScreen('screen-login');
-    });
+    const codeVerifier = sessionStorage.getItem('code_verifier');
+    // CRITICAL FIX: Use the SAME stored URI
+    const storedRedirectUri = sessionStorage.getItem('original_redirect_uri') || REDIRECT_URI;
+
+    if (!code || !codeVerifier) {
+        // Just clear URL params if no code (cancel or error)
+        window.history.replaceState({}, document.title, window.location.pathname);
+        return;
+    }
+
+    try {
+        const body = new URLSearchParams({
+            client_id: CLIENT_ID,
+            grant_type: 'authorization_code',
+            code: code,
+            redirect_uri: storedRedirectUri, // Use stored URI
+            code_verifier: codeVerifier
+        });
+
+        fetch('https://accounts.spotify.com/api/token', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: body
+        }).then(async r => {
+            if (!r.ok) {
+                const txt = await r.text();
+                throw new Error(`Token Hatası: ${r.status} - ${txt}`);
+            }
+            return r.json();
+        }).then(d => {
+            if (d.access_token) {
+                sessionStorage.setItem('access_token', d.access_token);
+                window.location.hash = '';
+                window.history.replaceState({}, document.title, window.location.pathname);
+                showScreen('screen-loading');
+                fetchData(d.access_token);
+            }
+        }).catch(err => {
+            alert(err.message);
+            console.error(err);
+            showScreen('screen-login');
+        });
+    } catch (e) {
+        console.error("Exchange error:", e);
+    }
 }
 
 // --- DATA ---
