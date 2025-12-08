@@ -1,9 +1,7 @@
 console.log("Wrecked: Script starting (v15 - Bilingual)...");
 
 const CLIENT_ID = '0be6ca4e028244c89479aa37ebd9ce1d';
-const REDIRECT_URI = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-    ? window.location.origin + window.location.pathname
-    : 'https://wrecked-app.vercel.app/index.html';
+const REDIRECT_URI = window.location.origin + window.location.pathname;
 const SCOPES = 'user-top-read user-read-email user-read-private';
 
 // --- I18N CONFIG ---
