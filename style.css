@@ -96,48 +96,48 @@ body {
 /* --- AD BANNERS (REMOVED) --- */
 
 /* --- HEADER & LOGO --- */
+/* HEADER & LOGO */
 .app-header {
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
-    margin-top: 5px;
+    margin-top: 10px;
     position: relative;
     padding: 0 60px;
-    /* Force space for buttons */
     width: 100%;
     box-sizing: border-box;
+    height: 80px;
+    /* Fixed height for stability */
 }
 
 .logo-container {
-    position: relative;
     display: flex;
     align-items: center;
-    gap: 5px;
-    /* Tighter gap per request */
+    justify-content: center;
+    height: 100%;
+    width: auto;
 }
 
-.brand-wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-left: 0;
-    /* Remove left margin for tighter fit */
+.main-logo-img {
+    height: 60px;
+    /* Default height */
+    width: auto;
+    object-fit: contain;
 }
 
-.brand-name {
-    font-size: 2.8em;
-    font-weight: 900;
-    letter-spacing: -4px;
-    /* Condensed spacing */
-    color: var(--text-primary);
-    text-transform: none;
-    line-height: 0.9;
-    margin: 0;
-    transform: scaleX(0.95);
-    /* Condense width */
+@media (max-width: 400px) {
+    .app-header {
+        padding: 0 40px;
+        height: 70px;
+    }
+
+    .main-logo-img {
+        height: 50px;
+    }
 }
+
+/* Removed unused brand styles (.brand-name, .brand-wrapper, etc) */
 
 @media (max-width: 400px) {
     .brand-name {
@@ -929,14 +929,17 @@ h2 {
 .share-actions-container .social-actions-row {
     display: flex;
     justify-content: center;
-    gap: 15px; /* Increased gap */
+    gap: 15px;
+    /* Increased gap */
     margin-bottom: 20px;
-    flex-wrap: wrap; /* Allow wrapping on small screens */
+    flex-wrap: wrap;
+    /* Allow wrapping on small screens */
     width: 100%;
 }
 
 .share-actions-container .icon-btn {
-    width: 50px; /* Slightly larger */
+    width: 50px;
+    /* Slightly larger */
     height: 50px;
     font-size: 1.4em;
     border: 1px solid var(--wrecked-green);
@@ -944,7 +947,8 @@ h2 {
     color: var(--wrecked-green);
     background: transparent !important;
     border-radius: 50%;
-    margin: 0; /* Handled by gap */
+    margin: 0;
+    /* Handled by gap */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -969,7 +973,8 @@ h2 {
     font-weight: 700;
     margin-top: 10px;
     width: 100%;
-    max-width: 300px; /* Limit width */
+    max-width: 300px;
+    /* Limit width */
     cursor: pointer;
     transition: all 0.3s ease;
 }

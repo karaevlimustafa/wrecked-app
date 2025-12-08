@@ -80,6 +80,7 @@ function toggleLanguage() {
     if (allTopArtists.length > 0) {
         updateStats();
         if (currentPersona) generateFortune();
+        renderGenreList(); // NEW: Re-render list with new language
         // populateSummary(); REMOVED
     }
 }
@@ -546,9 +547,6 @@ function shareSocial(platform) {
         case 'twitter':
             intent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
             break;
-        case 'facebook':
-            intent = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-            break;
         case 'instagram':
         case 'tiktok':
             // These platforms don't support direct web sharing well.
@@ -758,8 +756,8 @@ function calculateGenres(artists) {
     const sorted = Object.entries(c).sort((a, b) => b[1] - a[1]);
     topGenres = sorted.map(x => x[0]);
     // Fix for user: Try to show at least 10 if available
-    let limit = sorted.length < 10 ? sorted.length : 10;
-    document.getElementById('list-genres').innerHTML = sorted.slice(0, limit).map((x, i) => `<div class="item"><span class="rank">#${i + 1}</span> <b>${formatGenre(x[0])}</b></div>`).join('');
+    // Separated rendering to support language toggle
+    renderGenreList();
 
     // Group logic matches v10
     const m = topGenres[0] || '';
@@ -769,6 +767,23 @@ function calculateGenres(artists) {
     else if (m.includes('elect') || m.includes('edm')) dominantGenreGroup = "ELECTRO";
     else if (m.includes('indie') || m.includes('folk')) dominantGenreGroup = "INDIE";
     else dominantGenreGroup = "MIX";
+}
+
+function renderGenreList() {
+    // Uses Global topGenres (sorted list of strings)
+    // We need the counts? Actually calculateGenres destroyed the counts to make topGenres just strings.
+    // Wait, calculating topGenres in calculateGenres line 759: topGenres = sorted.map(x => x[0]);
+    // So topGenres is just names.
+    // But original code had: sorted.slice(0, limit).map...
+    // So I need access to 'sorted' list or reconstruct it.
+    // Issue: topGenres only has names, not counts. I can't re-sort, but it is already sorted.
+    // But calculateGenres sets topGenres = sorted.map. So topGenres is ALREADY sorted by count.
+    // So I can just iterate topGenres.
+
+    if (!topGenres || topGenres.length === 0) return;
+
+    let limit = topGenres.length < 10 ? topGenres.length : 10;
+    document.getElementById('list-genres').innerHTML = topGenres.slice(0, limit).map((x, i) => `<div class="item"><span class="rank">#${i + 1}</span> <b>${formatGenre(x)}</b></div>`).join('');
 }
 // --- LOGIC: SPIRIT AGE ---
 function calculateMusicEra(t) {
@@ -833,15 +848,15 @@ function calculateWreckedStats(artists) {
 function formatGenre(g) {
     if (!g) return "";
     // Custom replacements for common data
-    if (g === 'turkish pop') return currentLang === 'tr' ? 'TÜRKÇE POP' : 'TURKISH POP';
-    if (g === 'turkish rock') return currentLang === 'tr' ? 'TÜRKÇE ROCK' : 'TURKISH ROCK';
-    if (g === 'turkish hip hop') return currentLang === 'tr' ? 'TÜRKÇE HIP HOP' : 'TURKISH HIP HOP';
-    if (g === 'turkish trap') return currentLang === 'tr' ? 'TÜRKÇE TRAP' : 'TURKISH TRAP';
-    if (g === 'arabesk') return currentLang === 'tr' ? 'ARABESK' : 'ARABESQUE';
-    if (g === 'anadolu rock') return currentLang === 'tr' ? 'ANADOLU ROCK' : 'ANATOLIAN ROCK';
+    if (g === 'turkish pop') return currentLang === 'tr' ? 'Türkçe Pop' : 'Turkish Pop';
+    if (g === 'turkish rock') return currentLang === 'tr' ? 'Türkçe Rock' : 'Turkish Rock';
+    if (g === 'turkish hip hop') return currentLang === 'tr' ? 'Türkçe Hip Hop' : 'Turkish Hip Hop';
+    if (g === 'turkish trap') return currentLang === 'tr' ? 'Türkçe Trap' : 'Turkish Trap';
+    if (g === 'arabesk') return currentLang === 'tr' ? 'Arabesk' : 'Arabesque';
+    if (g === 'anadolu rock') return currentLang === 'tr' ? 'Anadolu Rock' : 'Anatolian Rock';
 
-    // Default capitalize
-    return g.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ').toUpperCase();
+    // Default capitalize (Title Case)
+    return g.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
 }
 
 function updateStats() {
@@ -1009,7 +1024,7 @@ function generateFortune() {
     if (elFinalBar) elFinalBar.style.width = mainstreamScore + "%";
 
     // Fix: Get Top Genre properly (it might be set in DOM or var)
-    const genreVal = (topGenres[0] || 'POP').toUpperCase();
+    const genreVal = formatGenre(topGenres[0] || 'Pop');
     updateFinal('stat-top-genre', genreVal);
 
     updateFinal('stat-toxic', traitVal || (currentLang === 'tr' ? "Sıradan" : "Ordinary"));
