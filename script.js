@@ -1,7 +1,9 @@
 console.log("Wrecked: Script starting (v15 - Bilingual)...");
 
 const CLIENT_ID = '0be6ca4e028244c89479aa37ebd9ce1d';
-const REDIRECT_URI = 'https://wrecked-app.vercel.app/index.html';
+const REDIRECT_URI = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? window.location.origin + window.location.pathname
+    : 'https://wrecked-app.vercel.app/index.html';
 const SCOPES = 'user-top-read user-read-email user-read-private';
 
 // --- I18N CONFIG ---
@@ -647,10 +649,19 @@ document.addEventListener('DOMContentLoaded', () => {
 function generateRandomString(n) { let t = ''; const p = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'; for (let i = 0; i < n; i++) t += p.charAt(Math.floor(Math.random() * p.length)); return t; }
 async function generateCodeChallenge(v) { const e = new TextEncoder().encode(v); const d = await window.crypto.subtle.digest('SHA-256', e); return btoa(String.fromCharCode(...new Uint8Array(d))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
 async function startAuth() {
-    const v = generateRandomString(128);
-    sessionStorage.setItem('code_verifier', v);
-    const c = await generateCodeChallenge(v);
-    window.location.href = `https://accounts.spotify.com/authorize?response_type=code&client_id=${CLIENT_ID}&scope=${encodeURIComponent(SCOPES)}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&code_challenge_method=S256&code_challenge=${c}`;
+    try {
+        if (!window.crypto || !window.crypto.subtle) {
+            alert("GÜVENLİK HATASI: Spotify girişi 'file://' üzerinden çalışmaz. Lütfen projeyi VS Code 'Live Server' veya localhost üzerinden çalıştırın.");
+            return;
+        }
+        const v = generateRandomString(128);
+        sessionStorage.setItem('code_verifier', v);
+        const c = await generateCodeChallenge(v);
+        window.location.href = `https://accounts.spotify.com/authorize?response_type=code&client_id=${CLIENT_ID}&scope=${encodeURIComponent(SCOPES)}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&code_challenge_method=S256&code_challenge=${c}`;
+    } catch (e) {
+        alert("Giriş başlatılamadı: " + e.message);
+        console.error(e);
+    }
 }
 function exchangeToken(code) {
     const v = sessionStorage.getItem('code_verifier');
