@@ -970,31 +970,17 @@ function generateFortune() {
     const booksList = document.getElementById('rec-books');
     if (booksList) booksList.innerHTML = persona.b.map(x => `<li>${x}</li>`).join('');
 
-    // Summary Card Sync
-    document.getElementById('sum-title').innerText = rawTitle;
+    // Summary Card Sync (Legacy block removed to fix errors)
+    // The final card is now updated via updateFinal block below
 
     // TRUNCATE STORY FOR SUMMARY CARD TO PREVENT OVERFLOW
-    // Keep it approx 130 chars for visual fit
     let shortDesc = finalDesc;
     if (finalDesc.length > 140) {
         // Find last space before 140
         const cut = finalDesc.lastIndexOf(' ', 140);
         shortDesc = finalDesc.substring(0, cut > 0 ? cut : 140) + "...";
     }
-    document.getElementById('sum-story').innerHTML = shortDesc;
 
-    document.getElementById('sum-era').innerText = (currentLang === 'tr' ? detailedSpiritAge : detailedSpiritAgeEN) || "MODERN";
-    document.getElementById('sum-score').innerText = mainstreamScore + "% " + (currentLang === 'tr' ? "Banal" : "Basic");
-    document.getElementById('sum-bar').style.width = mainstreamScore + "%";
-    document.getElementById('sum-top-genre').innerText = (topGenres[0] || 'POP').toUpperCase();
-    document.getElementById('sum-toxic').innerText = (currentLang === 'tr' ? toxicTrait : toxicTraitEN) || "OK";
-    document.getElementById('sum-city').innerText = cityVal;
-
-    // Summary Recs - Hidden by CSS but populate just in case
-    document.getElementById('sum-rec-mov').innerHTML = "";
-    document.getElementById('sum-rec-book').innerHTML = "";
-
-    if (!persona.b || persona.b.length === 0) document.getElementById('rec-books').innerHTML = "<li>Kitap yok.</li>";
 
     // --- POPULATE FINAL SCREEN (Kaza Raporu) ---
     const updateFinal = (id, val) => { const el = document.getElementById('final-' + id); if (el) el.innerText = val; };
