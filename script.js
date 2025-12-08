@@ -718,6 +718,16 @@ function fetchData(token) {
             renderSongs(allTopTracks.slice(0, 10));
             calculateAlbums(allTopTracks);
             calculateMusicEra(allTopTracks);
+
+            // NEW (V2): Fetch Audio Features for deep analysis
+            const trackIds = allTopTracks.map(t => t.id).slice(0, 50).join(','); // API limit 100, we take max 50
+            return fetch(`https://api.spotify.com/v1/audio-features?ids=${trackIds}`, { headers: { 'Authorization': 'Bearer ' + token } });
+        }).then(async r => {
+            if (!r.ok) throw new Error("Audio Features Error");
+            return r.json();
+        }).then(d => {
+            allAudioFeatures = d.audio_features || [];
+            // Continue to Artists
             return fetch('https://api.spotify.com/v1/me/top/artists?limit=50&time_range=long_term', { headers: { 'Authorization': 'Bearer ' + token } });
         }).then(async r => {
             if (r.status === 401) {
@@ -912,6 +922,97 @@ function updateStats() {
     document.getElementById('stat-city').innerText = city;
 }
 
+// --- NEW V2: SARCASTIC STORY ENGINE (EXPANDED) ---
+const STORY_FRAGMENTS = {
+    opener: {
+        tr: [
+            "Müzik zevkini derinlemesine inceledik ve sonuçlar... endişe verici.",
+            "Spotify hesabın resmen yardım çığlığı atıyor.",
+            "Bunu nasıl söyleyeceğimi bilmiyorum ama zevklerin bir tuhaf.",
+            "Keşke kulaklarım görmeseydi dediğim bir tablo."
+        ],
+        en: [
+            "We analyzed your taste and results are... concerning.",
+            "Your Spotify account is literally screaming for help.",
+            "I don't know how to say this, but your taste is weird.",
+            "I wish my ears could un-see this."
+        ]
+    },
+    mood: {
+        sad_low: {
+            tr: "Ruh halin o kadar karanlık ki, telefonunun parlaklığı bile yetersiz kalıyor (Valence: {v}%). Sanki dünyadaki tüm hüzün senin omuzlarında.",
+            en: "Your mood is so dark, even your phone brightness isn't enough (Valence: {v}%). It's like all the world's sadness is on your shoulders."
+        },
+        sad_high: {
+            tr: "Ağlayarak dans etmek mi? Senin olayın tam olarak bu. İçin kan ağlarken pistte kopuyorsun resmen (Valence: {v}%, Energy: {e}%).",
+            en: "Crying on the dancefloor? That's exactly your vibe. Dying inside while raving outside (Valence: {v}%, Energy: {e}%)."
+        },
+        happy_high: {
+            tr: "O kadar neşeli ve enerjiksin ki, etrafındakiler muhtemelen senden yoruluyor. Biraz sakinleş, bu kadar enerji normal değil. (Energy: {e}%)",
+            en: "You're so happy and energetic, people around you are probably exhausted. Calm down, this much energy isn't normal. (Energy: {e}%)"
+        },
+        happy_low: {
+            tr: "Huzurlu ve keyiflisin, sanki emekli olmuşsun ve Ege'de bir kasabaya yerleşmişsin. Dünya yansa umrunda değil. (Energy: {e}%)",
+            en: "Peaceful and happy, like you've retired and moved to a seaside village. World could burn and you wouldn't care. (Energy: {e}%)"
+        },
+        neutral_medium: {
+            tr: "O kadar ortadasın ki, seni tanımlamak için 'gri' rengini kullanmak bile fazla heyecanlı kaçar. (Valence: {v}%)",
+            en: "You are so middle-of-the-road, even describing you as 'beige' would be too exciting. (Valence: {v}%)"
+        }
+    },
+    obsess: {
+        tr: [
+            "Sadece {a} dinleyerek hayat geçmez. Başka sanatçılar da var, haberin olsun.",
+            "{a} takıntın biraz ürkütücü boyutlara ulaşmış.",
+            "Spotify'ı sadece {a} dinlemek için kullanıyor gibisin."
+        ],
+        en: [
+            "Life doesn't pass by listening only to {a}. There are other artists too, just so you know.",
+            "Your obsession with {a} is getting a bit creepy.",
+            "It looks like you only use Spotify to listen to {a}."
+        ]
+    },
+    closer: {
+        tr: [
+            "Umarım bir gün düzelir.",
+            "Bize bulaşmamış olsaydın daha iyiydi.",
+            "Bu raporu sakla, ilerde çocuklarına 'böyle olma' dersin.",
+            "Biraz farklı müzikler dene, hayat kısa."
+        ],
+        en: [
+            "Hope it gets better one day.",
+            "It would've been better if you hadn't involved us.",
+            "Keep this report, tell your kids 'don't be like this' someday.",
+            "Try some different music, life is short."
+        ]
+    }
+};
+
+function generateDetailedStory(vibe, topArtist) {
+    const lang = currentLang;
+    const moodKey = `${vibe.mood}_${vibe.energy}` in STORY_FRAGMENTS.mood ? `${vibe.mood}_${vibe.energy}` : 'neutral_medium';
+
+    // Pick random phrases
+    const rand = (arr) => Array.isArray(arr) ? arr[Math.floor(Math.random() * arr.length)] : arr;
+
+    let parts = [];
+    parts.push(rand(STORY_FRAGMENTS.opener[lang]));
+
+    let moodText = STORY_FRAGMENTS.mood[moodKey][lang]
+        .replace('{v}', Math.round(vibe.raw.valence * 100))
+        .replace('{e}', Math.round(vibe.raw.energy * 100));
+    parts.push(moodText);
+
+    if (topArtist) {
+        let obsText = rand(STORY_FRAGMENTS.obsess[lang]).replace('{a}', topArtist);
+        parts.push(obsText);
+    }
+
+    parts.push(rand(STORY_FRAGMENTS.closer[lang]));
+
+    return parts.join(' <br><br> ');
+}
+
 // --- PERSONA & SUMMARY ---
 function populateSummary() {
     // 1. Sync Image
@@ -942,42 +1043,44 @@ function populateSummary() {
     }
 }
 
-// --- GENERATE FORTUNE (New Bilingual Logic) ---
+// --- 4. GENERATE PERSONA ---
 function generateFortune() {
-    // 1. Identify Priority/Special Archetypes
-    let key = `${dominantGenreGroup}_${musicEra}_${varietyScore}`;
-    const topArt = allTopArtists[0] ? allTopArtists[0].name : "";
-    const topGen = topGenres[0] || "";
+    if (!allTopArtists || allTopArtists.length === 0) return;
 
-    if (topArt === 'Taylor Swift') key = 'SWIFTIE';
-    else if (topGen.includes('k-pop') || topArt.includes('BTS')) key = 'KPOP_STAN';
-    else if (dominantGenreGroup === 'METAL' || topGen.includes('metal')) key = 'METALHEAD';
-    else if (dominantGenreGroup === 'JAZZ') key = 'JAZZ_CAT';
+    // Use V2 Vibe Calculator
+    const vibe = calculateVibe(allAudioFeatures);
 
-    // 2. Fallback Logic
-    if (!ARCHETYPES_DB[key]) {
-        if (ARCHETYPES_DB[`${dominantGenreGroup}_${musicEra}_LOW`]) key = `${dominantGenreGroup}_${musicEra}_LOW`;
-        else if (ARCHETYPES_DB[`${dominantGenreGroup}_MODERN_LOW`]) key = `${dominantGenreGroup}_MODERN_LOW`;
-        else key = "MIX_MODERN_LOW"; // Ultimate fallback
+    // Existing logic for basic archetype setup...
+    const topArt = allTopArtists[0].name;
+    const topGenres = allTopArtists[0].genres || [];
+
+    // Simple logic preservation to choose a background/title
+    let archetypeKey = 'basic';
+    if (mainstreamScore < 40) archetypeKey = 'hipster';
+    else if (dominantGenreGroup === 'ROCK') archetypeKey = 'metalhead';
+    else if (dominantGenreGroup === 'POP') archetypeKey = 'stan';
+
+    // Select from DB for TITLE
+    let selectedId = 'basic';
+    // Weighted selection
+    let scores = {};
+    for (let [k, v] of Object.entries(ARCHETYPE_TEMPLATES)) {
+        let s = 0;
+        if (v.trigger(allTopArtists)) s += 10;
+        scores[k] = s + Math.random() * 5;
     }
+    selectedId = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
 
-    const persona = ARCHETYPES_DB[key] || ARCHETYPES_DB['MIX_MODERN_LOW'];
-    currentPersona = persona;
+    // Globals
+    currentPersona = ARCHETYPES_DB[selectedId];
+    const persona = currentPersona;
 
-    // 3. Prepare Text (Bilingual)
-    // Get raw text based on language
     const lang = currentLang;
     let rawTitle = persona.tit ? (persona.tit[lang] || persona.tit['tr']) : "Unknown";
-    let rawDesc = persona.desc ? (persona.desc[lang] || persona.desc['tr']) : "Error generating story.";
 
-    // 4. Inject Dynamic Data
-    const cityVal = document.getElementById('stat-city').innerText || (currentLang === 'tr' ? "İstanbul" : "New York");
-    const artVal = topArt || "Sanatçı";
-
-    // Replace {a} and {c}
-    let finalDesc = rawDesc.replace(/\{a\}/g, `<strong>${artVal}</strong>`).replace(/\{c\}/g, `<strong>${cityVal}</strong>`);
-
-    generatedFortunText = finalDesc;
+    // FORCE NEW STORY
+    const newStory = generateDetailedStory(vibe, topArt);
+    let finalDesc = newStory;
 
     // 5. Update UI
     document.getElementById('persona-title').innerText = rawTitle;
@@ -989,57 +1092,35 @@ function generateFortune() {
     const booksList = document.getElementById('rec-books');
     if (booksList) booksList.innerHTML = persona.b.map(x => `<li>${x}</li>`).join('');
 
-    // Summary Card Sync (Legacy block removed to fix errors)
-    // The final card is now updated via updateFinal block below
-
-    // TRUNCATE STORY FOR SUMMARY CARD TO PREVENT OVERFLOW
-    let shortDesc = finalDesc;
-    if (finalDesc.length > 140) {
-        // Find last space before 140
-        const cut = finalDesc.lastIndexOf(' ', 140);
-        shortDesc = finalDesc.substring(0, cut > 0 ? cut : 140) + "...";
-    }
-
-
-    // --- POPULATE FINAL SCREEN (Kaza Raporu) ---
+    // Final Card
     const updateFinal = (id, val) => { const el = document.getElementById('final-' + id); if (el) el.innerText = val; };
 
-    // 1. Header & Hero
     document.getElementById('final-archetype-title').innerText = rawTitle;
-    document.getElementById('final-story-text').innerHTML = shortDesc; // Use truncated version for space safety
+    document.getElementById('final-story-text').innerHTML = finalDesc;
+
+    // ... (Rest of Final Card Stats update) ...
     const heroImg = document.getElementById('final-hero-img');
     if (heroImg && allTopArtists.length > 0 && allTopArtists[0].images.length > 0) {
         heroImg.src = allTopArtists[0].images[0].url;
-    } else if (heroImg) {
-        heroImg.style.display = 'none'; // Hide if no image
+        heroImg.style.display = 'block';
     }
 
-    // 2. Stats
-    const eraVal = currentLang === 'tr' ? detailedSpiritAge : detailedSpiritAgeEN;
-    const traitVal = currentLang === 'tr' ? toxicTrait : toxicTraitEN;
+    // Stats Update
+    updateFinal('stat-city', document.getElementById('stat-city').innerText);
+    updateFinal('stat-era', document.getElementById('stat-era').innerText);
+    updateFinal('stat-toxic', document.getElementById('stat-toxic').innerText);
 
-    updateFinal('stat-era', eraVal || (currentLang === 'tr' ? "Bilinmiyor" : "Unknown"));
-    updateFinal('stat-mainstream-val', mainstreamScore + "%");
-    const elFinalBar = document.getElementById('final-stat-mainstream-bar');
+    updateFinal('stat-artist-count', allTopArtists.length);
+    updateFinal('stat-genre-count', topGenres.length);
+
+    document.getElementById('final-stat-score').innerText = mainstreamScore + "%";
+    const elFinalBar = document.querySelector('#final-summary-card .progress-bar div');
     if (elFinalBar) elFinalBar.style.width = mainstreamScore + "%";
 
-    // Fix: Get Top Genre properly (it might be set in DOM or var)
-    const genreVal = formatGenre(topGenres[0] || 'Pop');
+    const genreVal = formatGenre(allTopArtists[0].genres[0] || 'Pop');
     updateFinal('stat-top-genre', genreVal);
 
-    updateFinal('stat-toxic', traitVal || (currentLang === 'tr' ? "Sıradan" : "Ordinary"));
-    updateFinal('stat-artist-count', allTopArtists.length || 0);
-    updateFinal('stat-genre-count', topGenres.length || 0);
-    updateFinal('stat-city', cityVal);
-
-    // 3. Recs (Simple List)
-    const finalMov = document.getElementById('final-rec-mov');
-    if (finalMov) finalMov.innerHTML = persona.m.map(x => `<div>• ${x}</div>`).join('');
-
-    const finalBook = document.getElementById('final-rec-book');
-    if (finalBook) finalBook.innerHTML = persona.b.map(x => `<div>• ${x}</div>`).join('');
-
-    // 4. Update Final Card Labels (Translation)
+    // Labels
     const setFinalLbl = (id, key) => { const el = document.getElementById(id); if (el) el.innerText = UI_TEXTS[key][currentLang]; };
     setFinalLbl('final-lbl-era', 'lbl-era');
     setFinalLbl('final-lbl-score', 'lbl-score');
@@ -1049,12 +1130,9 @@ function generateFortune() {
     setFinalLbl('final-lbl-art-count', 'lbl-art-count');
     setFinalLbl('final-lbl-gen-count', 'lbl-gen-count');
 
-    // Ensure Restart Button is also updated dynamically here just in case language changed mid-flow
     const btnRestartFinal = document.getElementById('btn-restart-final');
     if (btnRestartFinal) btnRestartFinal.innerText = UI_TEXTS['btn-restart'][currentLang];
 }
 
 
 // End of script
-
-
